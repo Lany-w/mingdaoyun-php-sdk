@@ -1,0 +1,19 @@
+{
+    "name": "lany/mingdaoyun",
+    "description": "Package description here.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lany",
+            "email": "wlany@qq.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lany\\MingDaoYun\\": "./src"
+        }
+    }
+}
