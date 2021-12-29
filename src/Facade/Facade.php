@@ -9,7 +9,7 @@ namespace Lany\MingDaoYun\Facade;
 
 use Lany\MingDaoYun\MingDaoYun;
 
-abstract class Facade implements \Lany\MingDaoYun\Iterface\Facade
+abstract class Facade implements \Lany\MingDaoYun\Interfaces\Facade
 {
     protected static $classMap = [
         'mdy' => MingDaoYun::class,
