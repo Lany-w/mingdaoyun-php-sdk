@@ -1,7 +1,13 @@
-<h1 align="center"> mingdaoyun </h1>
+mingdaoyun-PHP-SDK
+===========
 
-<p align="center"> .</p>
+针对mingdaoyun的API封装的PHP-SDK包
 
+# Features
+
+- [ ] 封装基础API
+- [ ] 固定数据的CRUD
+- [ ] to_sql功能
 
 ## Installing
 
@@ -21,7 +27,8 @@ You can contribute in one of three ways:
 2. Answer questions or fix bugs on the [issue tracker](https://github.com/lany/mingdaoyun/issues).
 3. Contribute new features or update the wiki.
 
-_The code contribution process is not very formal. You just need to make sure that you follow the PSR-0, PSR-1, and PSR-2 coding guidelines. Any new code contributions must be accompanied by unit tests where applicable._
+_The code contribution process is not very formal. You just need to make sure that you follow the PSR-0, PSR-1, and
+PSR-2 coding guidelines. Any new code contributions must be accompanied by unit tests where applicable._
 
 ## License
 
