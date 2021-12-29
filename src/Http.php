@@ -11,15 +11,16 @@ use GuzzleHttp\Client;
 
 class Http
 {
-    protected $options;
+    protected static $options = [];
 
-    public function client()
+    public static function client()
     {
-        return new Client($this->options);
+        return new Client(static::$options);
     }
 
-    public function setGuzzleOptions(array $options)
+    public static function setGuzzleOptions(array $options)
     {
-        $this->options = $options;
+        static::$options = $options;
+        return static::class;
     }
 }
