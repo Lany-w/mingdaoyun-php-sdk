@@ -7,7 +7,11 @@
 
 namespace Lany\MingDaoYun\Facade;
 
-
+/**
+ * Class MingDaoYun
+ * @package Lany\MingDaoYun\Facade
+ * @method static setUpMingDao($appKey, $sign, $host)
+ */
 class MingDaoYun extends Facade
 {
     public static function getClass()
