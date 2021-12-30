@@ -13,6 +13,8 @@ class Kernel
 {
     public function getList($worksheetId)
     {
+        $this->checkAppInit();
+
         if (!$worksheetId) {
             throw new InvalidArgumentException('worksheetId请求参数错误');
         }
@@ -32,6 +34,13 @@ class Kernel
         }
 
         return json_decode($response->getBody()->getContents(), true);
+    }
+
+    public function checkAppInit()
+    {
+        if (!$this->appKey || !$this->sign || !$this->host) {
+            throw new InvalidArgumentException('init error:请设置appkey,sign,host');
+        }
     }
 
 }
