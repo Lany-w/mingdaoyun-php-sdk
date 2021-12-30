@@ -7,6 +7,7 @@
 namespace Lany\MingDaoYun;
 
 use Lany\MingDaoYun\Exceptions\Exception;
+use Lany\MingDaoYun\Exceptions\InvalidArgumentException;
 
 /**
  * Class MingDaoYun
@@ -20,16 +21,10 @@ class MingDaoYun extends Kernel
     protected $sign;
     //明道云私有部署域名
     protected $host;
-    //视图ID
-    protected $viewId;
-    //行数
-    protected $pageSize;
-    //页码
-    protected $pageIndex;
-    //排序字段ID
-    protected $sortId;
-    //是否升序
-    protected $isAsc;
+    //获取列表参数
+    protected $getParams = [];
+    //filters
+    protected $filters = [];
     //获取列表API
     protected $getListApiV2 = '/api/v2/open/worksheet/getFilterRows';
 
@@ -76,7 +71,7 @@ class MingDaoYun extends Kernel
      */
     public function view(string $viewId)
     {
-        $this->viewId = $viewId;
+        $this->getParams['viewId'] = $viewId;
         return $this;
     }
 
@@ -89,7 +84,7 @@ class MingDaoYun extends Kernel
      */
     public function limit(int $int = 8)
     {
-        $this->pageSize = $int;
+        $this->getParams['pageSize'] = $int;
         return $this;
     }
 
@@ -102,9 +97,65 @@ class MingDaoYun extends Kernel
      */
     public function page(int $int = 1)
     {
-        $this->pageIndex = $int;
+        $this->getParams['pageIndex'] = $int;
         return $this;
     }
 
+    /**
+     * Notes:设置排序字段,是否升序
+     * User: Lany
+     * DateTime: 2021/12/30 2:53 下午
+     * @param string $field
+     * @param bool $asc
+     * @return $this
+     */
+    public function sort(string $field, bool $asc = true)
+    {
+        $this->getParams['sortId'] = $field;
+        $this->getParams['isAsc'] = $asc;
+        return $this;
+    }
+
+    /**
+     * Notes:设置查询条件
+     * User: Lany
+     * DateTime: 2021/12/30 3:47 下午
+     * @param mixed $map
+     * @param string $condition
+     * @param string $value
+     * @return $this
+     */
+    public function where($map, string $condition='', string $value='')
+    {
+        $this->buildFilters($map, $condition, $value);
+        return $this;
+    }
+
+    public function whereOr($map, string $condition='', string $value='')
+    {
+        Filter::$spliceType = 2;
+        $this->buildFilters($map, $condition, $value);
+        return $this;
+    }
+
+    public function whereNull()
+    {
+        //todo
+    }
+
+    public function whereNotNull()
+    {
+        //todo
+    }
+
+    public function whereBetween()
+    {
+        //todo
+    }
+
+    public function whereNotBetween()
+    {
+        //todo
+    }
 
 }
