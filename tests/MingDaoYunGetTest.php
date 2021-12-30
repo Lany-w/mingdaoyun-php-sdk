@@ -4,6 +4,7 @@
  * User: Lany
  * DateTime: 2021/12/30 10:36 上午
  */
+
 namespace Lany\MingDaoYun\Tests;
 
 use Lany\MingDaoYun\Exceptions\InvalidArgumentException;
@@ -12,6 +13,11 @@ use PHPUnit\Framework\TestCase;
 
 class MingDaoYunGetTest extends TestCase
 {
+    const appKey = '5922C61C66CF67AF';
+    const appSecret = 'OWI4M2EwOGFmNDZiMmI5YTAwN2IxMzYyYTNkYzQ1ZjJlYzYwMjUzY2VlYWYwYTlmYmIzMzJjN2ZjOGZlMDQ5NQ==';
+    const url = 'http://qtools.rinsys.com:80';
+    const workSheetTest = '60efbf797b786d8a492bfcee';
+
     public function testGetWithoutWorkSheetId()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -29,8 +35,27 @@ class MingDaoYunGetTest extends TestCase
 
     public function testHttpGet()
     {
-        $mdy = MingDaoYun::setUpMingDao('5922C61C66CF67AF', 'OWI4M2EwOGFmNDZiMmI5YTAwN2IxMzYyYTNkYzQ1ZjJlYzYwMjUzY2VlYWYwYTlmYmIzMzJjN2ZjOGZlMDQ5NQ==', 'http://qtools.rinsys.com:80');
-        $data = $mdy->get('60efbf797b786d8a492bfcee');
+        $mdy = MingDaoYun::setUpMingDao(self::appKey, self::appSecret, self::url);
+        $data = $mdy->get(self::workSheetTest);
         $this->assertArrayHasKey('data', $data);
     }
+
+    public function testLimit()
+    {
+        $mdy = MingDaoYun::setUpMingDao(self::appKey, self::appSecret, self::url);
+        $count = 2;
+        $data = $mdy->limit($count)->get(self::workSheetTest);
+        $this->assertArrayHasKey('data', $data);
+        $this->assertCount($count, $data['data']['rows']);
+    }
+
+    public function testPage()
+    {
+        $mdy = MingDaoYun::setUpMingDao(self::appKey, self::appSecret, self::url);
+        $count = 100;
+        $data = $mdy->limit($count)->page(9000)->get(self::workSheetTest);
+        $this->assertArrayHasKey('data', $data);
+        $this->assertCount(0, $data['data']['rows']);
+    }
+
 }
