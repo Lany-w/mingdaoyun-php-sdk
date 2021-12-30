@@ -45,15 +45,23 @@ class MingDaoYunGetTest extends TestCase
         $mdy = MingDaoYun::setUpMingDao(self::appKey, self::appSecret, self::url);
         $count = 2;
         $data = $mdy->limit($count)->get(self::workSheetTest);
-        $this->assertArrayHasKey('data', $data);
-        $this->assertCount($count, $data['data']['rows']);
+        if ($data['data']['total'] > $count) {
+            $this->assertArrayHasKey('data', $data);
+            $this->assertCount($count, $data['data']['rows']);
+        } else {
+            $this->assertArrayHasKey('data', $data);
+            $this->assertCount($data['data']['total'], $data['data']['rows']);
+        }
     }
 
     public function testPage()
     {
         $mdy = MingDaoYun::setUpMingDao(self::appKey, self::appSecret, self::url);
-        $count = 100;
-        $data = $mdy->limit($count)->page(9000)->get(self::workSheetTest);
+        $res = $mdy->limit(1)->get(self::workSheetTest);
+        $total = $res['data']['total'];
+        $pageSize = 100;
+        $lastPage = ceil($total / $pageSize) + 1;
+        $data = $mdy->limit($pageSize)->page($lastPage)->get(self::workSheetTest);
         $this->assertArrayHasKey('data', $data);
         $this->assertCount(0, $data['data']['rows']);
     }
