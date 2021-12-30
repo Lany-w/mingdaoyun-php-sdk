@@ -66,4 +66,29 @@ class MingDaoYunGetTest extends TestCase
         $this->assertCount(0, $data['data']['rows']);
     }
 
+    public function testSort()
+    {
+        $mdy = MingDaoYun::setUpMingDao(self::appKey, self::appSecret, self::url);
+        $res = $mdy->limit(1)->get(self::workSheetTest);
+        $total = $res['data']['total'];
+        $count = $total;
+        $field = '60efbf797b786d8a492bfce7';
+        $res = $mdy->limit($count)->sort($field)->get(self::workSheetTest);
+        $this->assertArrayHasKey('data', $res);
+        $this->assertCount($count, $res['data']['rows']);
+
+        $data = $res['data'];
+        $firstData = $data['rows'][0];
+        $lastData = $data['rows'][$count - 1];
+        $this->assertGreaterThan(intval($firstData[$field]), intval($lastData[$field]));
+
+        $res = $mdy->limit($count)->sort($field, false)->get(self::workSheetTest);
+        $data = $res['data'];
+        $firstData = $data['rows'][0];
+        $lastData = $data['rows'][$count - 1];
+
+        $this->assertGreaterThan(intval($lastData[$field]), intval($firstData[$field]));
+
+    }
+
 }
