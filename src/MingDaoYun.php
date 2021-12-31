@@ -4,6 +4,7 @@
  * User: Lany
  * DateTime: 2021/12/29 9:29 上午
  */
+
 namespace Lany\MingDaoYun;
 
 use Lany\MingDaoYun\Exceptions\Exception;
@@ -52,7 +53,7 @@ class MingDaoYun
      * @param string $host
      * @return $this
      */
-    public function init(string $appKey,string $sign,string $host)
+    public function init(string $appKey, string $sign, string $host): MingDaoYun
     {
         self::$appKey = $appKey;
         self::$sign = $sign;
@@ -69,7 +70,7 @@ class MingDaoYun
      * @return $this
      * @throws Exceptions\HttpException
      */
-    public function table(string $worksheetId)
+    public function table(string $worksheetId): MingDaoYun
     {
         self::$worksheetId = $worksheetId;
         Kernel::setWorkSheetMap();
@@ -110,7 +111,7 @@ class MingDaoYun
      * @param string $controlId
      * @return $this
      */
-    public function with(string $rowId, string $controlId)
+    public function with(string $rowId, string $controlId): MingDaoYun
     {
         self::$getParams['rowId'] = $rowId;
         self::$getParams['controlId'] = $controlId;
@@ -146,7 +147,7 @@ class MingDaoYun
      * @param string $viewId
      * @return $this
      */
-    public function view(string $viewId)
+    public function view(string $viewId): MingDaoYun
     {
         self::$getParams['viewId'] = $viewId;
         return $this;
@@ -159,7 +160,7 @@ class MingDaoYun
      * @param int $int
      * @return $this
      */
-    public function limit(int $int = 8)
+    public function limit(int $int = 8): MingDaoYun
     {
         self::$getParams['pageSize'] = $int;
         return $this;
@@ -172,7 +173,7 @@ class MingDaoYun
      * @param int $int
      * @return $this
      */
-    public function page(int $int = 1)
+    public function page(int $int = 1): MingDaoYun
     {
         self::$getParams['pageIndex'] = $int;
         return $this;
@@ -186,7 +187,7 @@ class MingDaoYun
      * @param bool $asc
      * @return $this
      */
-    public function sort(string $field, bool $asc = true)
+    public function sort(string $field, bool $asc = true): MingDaoYun
     {
         self::$getParams['sortId'] = $field;
         self::$getParams['isAsc'] = $asc;
@@ -203,7 +204,7 @@ class MingDaoYun
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function where($map, string $condition='', string $value='')
+    public function where($map, string $condition = '', string $value = ''): MingDaoYun
     {
         Filter::$spliceType = 1;
         Kernel::buildFilters($map, $condition, $value);
@@ -220,7 +221,7 @@ class MingDaoYun
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function whereOr($map, string $condition='', string $value='')
+    public function whereOr($map, string $condition = '', string $value = ''): MingDaoYun
     {
         Filter::$spliceType = 2;
         Kernel::buildFilters($map, $condition, $value);
@@ -235,7 +236,7 @@ class MingDaoYun
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function whereNull(string $field)
+    public function whereNull(string $field): MingDaoYun
     {
         Filter::$spliceType = 1;
         Kernel::buildFilters($field, null);
@@ -250,7 +251,7 @@ class MingDaoYun
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function whereNotNull(string $field)
+    public function whereNotNull(string $field): MingDaoYun
     {
         Filter::$spliceType = 1;
         Kernel::buildFilters($field, false);
@@ -276,7 +277,7 @@ class MingDaoYun
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function whereDate(string $field,string $date)
+    public function whereDate(string $field, string $date): MingDaoYun
     {
         Filter::$spliceType = 1;
         Kernel::buildFilters($field, 17, $date);
@@ -292,7 +293,7 @@ class MingDaoYun
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function whereNotDate(string $field,string $date)
+    public function whereNotDate(string $field, string $date): MingDaoYun
     {
         Filter::$spliceType = 1;
         Kernel::buildFilters($field, 18, $date);
