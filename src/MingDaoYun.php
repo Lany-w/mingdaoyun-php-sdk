@@ -116,6 +116,11 @@ class MingDaoYun extends Kernel
         return $this;
     }
 
+    public function fieldMap()
+    {
+        return self::$worksheetMap[self::$worksheetId];
+    }
+
     /**
      * Notes:获取关联记录
      * User: Lany
