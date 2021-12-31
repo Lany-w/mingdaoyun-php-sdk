@@ -35,6 +35,8 @@ class MingDaoYun extends Kernel
     protected $getWorkSheetMap = '/api/v2/open/worksheet/getWorksheetInfo';
     //获取行记录详情
     protected $getListById = '/api/v2/open/worksheet/getRowByIdPost';
+    //获取关联记录
+    protected $getRelationsUri = '/api/v2/open/worksheet/getRowRelations';
 
     public function __construct()
     {
@@ -97,6 +99,32 @@ class MingDaoYun extends Kernel
     {
         $this->getParams['rowId'] = $rowId;
         return $this->findOne();
+    }
+
+    /**
+     * Notes:设置关联记录
+     * User: Lany
+     * DateTime: 2021/12/31 1:23 下午
+     * @param string $rowId
+     * @param string $controlId
+     * @return $this
+     */
+    public function with(string $rowId, string $controlId)
+    {
+        $this->getParams['rowId'] = $rowId;
+        $this->getParams['controlId'] = $controlId;
+        return $this;
+    }
+
+    /**
+     * Notes:获取关联记录
+     * User: Lany
+     * DateTime: 2021/12/31 1:25 下午
+     * @return mixed
+     */
+    public function relations()
+    {
+        return $this->getRelations();
     }
 
     /**
