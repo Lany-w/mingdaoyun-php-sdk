@@ -15,7 +15,7 @@ class Filter
         if (is_array($field)) {
             foreach($field as $k => $v) {
                 if (is_array($v)) {
-                    return self::filterTypeEnum($v[0], $v[1], $v[2]);
+                    return self::filterTypeEnum(...$v);
                 } else {
                     return self::filterTypeEnum($k, '=', $v);
                 }
@@ -66,7 +66,6 @@ class Filter
             }
         }
 
-
         return [
             'controlId' => $field,
             'dataType' => self::getFieldDataType($field),
@@ -78,7 +77,11 @@ class Filter
 
     public static function getFieldDataType($field)
     {
-        $map = MingDaoYun::WORK_SHEET_MAP[MingDaoYun::$worksheetId][MingDaoYun::$worksheetId];
-        print_r($map);exit;
+        $map = MingDaoYun::$worksheetMap[MingDaoYun::$worksheetId]['controls'];
+        $arr = array_filter($map, function($item) use($field) {
+            return $item['controlId'] == $field;
+        });
+        $arr = array_pop($arr);
+        return $arr['type'];
     }
 }

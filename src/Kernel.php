@@ -23,7 +23,7 @@ class Kernel
         if ($response->getStatusCode() != 200) {
             throw new HttpException($response->getBody(), $response->getStatusCode());
         }
-
+        static::$worksheetId = '';
         return json_decode($response->getBody()->getContents(), true);
     }
 
@@ -40,7 +40,8 @@ class Kernel
         }
 
         $data = json_decode($response->getBody()->getContents(), true);
-        MingDaoYun::WORK_SHEET_MAP[$params['worksheetId']] = $data['data'];
+
+        MingDaoYun::$worksheetMap[MingDaoYun::$worksheetId] = $data['data'];
     }
 
     public function checkAppInit()
@@ -55,6 +56,7 @@ class Kernel
         $basic = [
             'appKey' => $this->appKey,
             'sign' => $this->sign,
+            'worksheetId' => MingDaoYun::$worksheetId
         ];
 
         if (!empty($this->filters)) {
@@ -64,7 +66,6 @@ class Kernel
 
         $params = array_merge($basic, $this->getParams);
         $this->getParams = [];
-        static::$worksheetId = '';
         return $params;
     }
 
