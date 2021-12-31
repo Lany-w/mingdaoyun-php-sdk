@@ -51,7 +51,7 @@ class Filter
                 $filterType = 16;
                 break;
             default:
-                $filter = [];
+                $filterType = 0;
                 break;
         }
 
