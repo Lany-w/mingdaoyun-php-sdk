@@ -11,15 +11,10 @@ use Lany\MingDaoYun\Exceptions\InvalidArgumentException;
 
 class Kernel
 {
-    public function getList(string $worksheetId)
+    public function getList()
     {
         $this->checkAppInit();
-
-        if (!$worksheetId) {
-            throw new InvalidArgumentException('worksheetId请求参数错误');
-        }
-        $params = $this->buildRequestParams($worksheetId);
-
+        $params = $this->buildRequestParams();
         $response = Http::client()->post($this->host.$this->getListApiV2, [
             'headers' => ['Content-Type' => 'application/json'],
             'json' => $params
@@ -32,37 +27,56 @@ class Kernel
         return json_decode($response->getBody()->getContents(), true);
     }
 
+    public function setWorkSheetMap()
+    {
+        $this->checkAppInit();
+        $params = $this->buildRequestParams();
+        $response = Http::client()->post($this->host.$this->getWorkSheetMap, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => $params
+        ]);
+        if ($response->getStatusCode() != 200) {
+            throw new HttpException($response->getBody(), $response->getStatusCode());
+        }
+
+        $data = json_decode($response->getBody()->getContents(), true);
+        MingDaoYun::WORK_SHEET_MAP[$params['worksheetId']] = $data['data'];
+    }
+
     public function checkAppInit()
     {
-        if (!$this->appKey || !$this->sign || !$this->host) {
-            throw new InvalidArgumentException('init error:请设置appkey,sign,host');
+        if (!$this->appKey || !$this->sign || !$this->host || !static::$worksheetId) {
+            throw new InvalidArgumentException('init error:请设置appkey,sign,host,worksheetId');
         }
     }
 
-    public function buildRequestParams(string $worksheetId)
+    public function buildRequestParams()
     {
         $basic = [
             'appKey' => $this->appKey,
             'sign' => $this->sign,
-            'worksheetId' => $worksheetId
         ];
 
         if (!empty($this->filters)) {
             $basic['filters'] = $this->filters;
             $this->filters = [];
         }
+
         $params = array_merge($basic, $this->getParams);
         $this->getParams = [];
+        static::$worksheetId = '';
         return $params;
     }
 
-    public function buildFilters($map, $condition, $value)
+    public function buildFilters($map, $condition, $value = '')
     {
         if (is_array($map)) {
             $this->filters[] = Filter::filterTypeCreate($map);
         } else {
-            if (!$condition || !$value) {
-                throw new InvalidArgumentException('请求缺少参数~');
+            if ($condition !== null && $condition !== false) {
+                if (!$condition || !$value) {
+                    throw new InvalidArgumentException('请求缺少参数~');
+                }
             }
             $this->filters[] = Filter::filterTypeCreate($map, $condition, $value);
         }
