@@ -12,7 +12,7 @@ use Lany\MingDaoYun\Kernel;
 
 abstract class Facade implements \Lany\MingDaoYun\Interfaces\Facade
 {
-    protected static $classMap = [
+    private static $classMap = [
         'mdy' => MingDaoYun::class,
         'kernel' => Kernel::class
     ];
