@@ -12,20 +12,17 @@ class Filter
 
     public static function filterTypeCreate($field, $symbol = '', $value = '')
     {
-        $filter = [];
         if (is_array($field)) {
             foreach($field as $k => $v) {
                 if (is_array($v)) {
-                    $filter[] = self::filterTypeEnum($v[0], $v[1], $v[2]);
+                    return self::filterTypeEnum($v[0], $v[1], $v[2]);
                 } else {
-                    $filter[] = self::filterTypeEnum($k, '=', $v);
+                    return self::filterTypeEnum($k, '=', $v);
                 }
             }
         } else {
-            $filter[] = self::filterTypeEnum($field, $symbol, $value);
+            return self::filterTypeEnum($field, $symbol, $value);
         }
-
-        return $filter;
     }
 
     public static function filterTypeEnum($field, $symbol, $value='')
