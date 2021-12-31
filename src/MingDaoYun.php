@@ -41,7 +41,7 @@ class MingDaoYun extends Kernel
      * @param string $host
      * @return $this
      */
-    public function setUpMingDao(string $appKey,string $sign,string $host)
+    public function init(string $appKey,string $sign,string $host)
     {
         $this->appKey = $appKey;
         $this->sign = $sign;
