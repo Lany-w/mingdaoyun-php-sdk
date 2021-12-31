@@ -22,7 +22,7 @@ class MingDaoYunGetTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('worksheetId请求参数错误');
-        $mdy = MingDaoYun::setUpMingDao('appKey', 'sign', 'host');
+        $mdy = MingDaoYun::init('appKey', 'sign', 'host');
         $mdy->get();
     }
 
@@ -35,14 +35,14 @@ class MingDaoYunGetTest extends TestCase
 
     public function testHttpGet()
     {
-        $mdy = MingDaoYun::setUpMingDao(self::appKey, self::appSecret, self::url);
+        $mdy = MingDaoYun::init(self::appKey, self::appSecret, self::url);
         $data = $mdy->get(self::workSheetTest);
         $this->assertArrayHasKey('data', $data);
     }
 
     public function testLimit()
     {
-        $mdy = MingDaoYun::setUpMingDao(self::appKey, self::appSecret, self::url);
+        $mdy = MingDaoYun::init(self::appKey, self::appSecret, self::url);
         $count = 2;
         $data = $mdy->limit($count)->get(self::workSheetTest);
         if ($data['data']['total'] > $count) {
@@ -56,7 +56,7 @@ class MingDaoYunGetTest extends TestCase
 
     public function testPage()
     {
-        $mdy = MingDaoYun::setUpMingDao(self::appKey, self::appSecret, self::url);
+        $mdy = MingDaoYun::init(self::appKey, self::appSecret, self::url);
         $res = $mdy->limit(1)->get(self::workSheetTest);
         $total = $res['data']['total'];
         $pageSize = 100;
@@ -68,7 +68,7 @@ class MingDaoYunGetTest extends TestCase
 
     public function testSort()
     {
-        $mdy = MingDaoYun::setUpMingDao(self::appKey, self::appSecret, self::url);
+        $mdy = MingDaoYun::init(self::appKey, self::appSecret, self::url);
         $res = $mdy->limit(1)->get(self::workSheetTest);
         $total = $res['data']['total'];
         $count = $total;

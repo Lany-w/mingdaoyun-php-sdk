@@ -59,19 +59,12 @@ class Kernel
     public function buildFilters($map, $condition, $value)
     {
         if (is_array($map)) {
-            $this->addFilters(Filter::filterTypeCreate($map));
+            $this->filters[] = Filter::filterTypeCreate($map);
         } else {
             if (!$condition || !$value) {
                 throw new InvalidArgumentException('请求缺少参数~');
             }
-            $this->addFilters(Filter::filterTypeCreate($map, $condition, $value));
-        }
-    }
-
-    public function addFilters($filters)
-    {
-        foreach($filters as $v) {
-            $this->filters[] = $v;
+            $this->filters[] = Filter::filterTypeCreate($map, $condition, $value);
         }
     }
 }
