@@ -8,11 +8,13 @@
 namespace Lany\MingDaoYun\Facade;
 
 use Lany\MingDaoYun\MingDaoYun;
+use Lany\MingDaoYun\Kernel;
 
 abstract class Facade implements \Lany\MingDaoYun\Interfaces\Facade
 {
     protected static $classMap = [
         'mdy' => MingDaoYun::class,
+        'kernel' => Kernel::class
     ];
 
     public static function __callStatic($name, $arguments)
