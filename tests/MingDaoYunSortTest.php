@@ -21,11 +21,11 @@ class MingDaoYunSortTest extends TestCase
     public function testSort()
     {
         $mdy = MingDaoYun::init(self::appKey, self::appSecret, self::url);
-        $res = $mdy->limit(1)->get(self::workSheetTest);
+        $res = $mdy->table(self::workSheetTest)->limit(1)->get();
         $total = $res['data']['total'];
         $count = $total;
         $field = '60efbf797b786d8a492bfce7';
-        $res = $mdy->limit($count)->sort($field)->get(self::workSheetTest);
+        $res = $mdy->table(self::workSheetTest)->limit($count)->sort($field)->get();
         $this->assertArrayHasKey('data', $res);
         $this->assertCount($count, $res['data']['rows']);
 
@@ -34,7 +34,7 @@ class MingDaoYunSortTest extends TestCase
         $lastData = $data['rows'][$count - 1];
         $this->assertGreaterThan(intval($firstData[$field]), intval($lastData[$field]));
 
-        $res = $mdy->limit($count)->sort($field, false)->get(self::workSheetTest);
+        $res = $mdy->table(self::workSheetTest)->limit($count)->sort($field, false)->get();
         $data = $res['data'];
         $firstData = $data['rows'][0];
         $lastData = $data['rows'][$count - 1];
