@@ -27,40 +27,58 @@ class Filter
 
     public static function filterTypeEnum($field, $symbol, $value='')
     {
-        $filterType = 0;
-        switch ($symbol) {
-            case 'like':
-                $filterType = 1;
-                break;
-            case '=':
-                $filterType = 2;
-                break;
-            case '!=':
-                $filterType = 6;
-                break;
-            case '>':
-                $filterType = 13;
-                break;
-            case '>=':
-                $filterType = 14;
-                break;
-            case '<':
-                $filterType = 15;
-                break;
-            case '<=':
-                $filterType = 16;
-                break;
-            default:
-                $filterType = 0;
-                break;
+        if ($symbol === null) {
+            $filterType = 7;
+        } elseif ($symbol === false) {
+            $filterType = 8;
+        } else {
+            switch ($symbol) {
+                case 'like':
+                    $filterType = 1;
+                    break;
+                case '=':
+                    $filterType = 2;
+                    break;
+                case '!=':
+                    $filterType = 6;
+                    break;
+                case '>':
+                    $filterType = 13;
+                    break;
+                case '>=':
+                    $filterType = 14;
+                    break;
+                case '<':
+                    $filterType = 15;
+                    break;
+                case '<=':
+                    $filterType = 16;
+                    break;
+                case 17:
+                    $filterType = 17;
+                    break;
+                case 18:
+                    $filterType = 18;
+                    break;
+                default:
+                    $filterType = 0;
+                    break;
+            }
         }
+
 
         return [
             'controlId' => $field,
-            'dataType' => 6,
+            'dataType' => self::getFieldDataType($field),
             'spliceType' => static::$spliceType,
             'filterType' => $filterType,
             'value' => $value
         ];
+    }
+
+    public static function getFieldDataType($field)
+    {
+        $map = MingDaoYun::WORK_SHEET_MAP[MingDaoYun::$worksheetId][MingDaoYun::$worksheetId];
+        print_r($map);exit;
     }
 }

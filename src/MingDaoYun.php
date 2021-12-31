@@ -21,12 +21,18 @@ class MingDaoYun extends Kernel
     protected $sign;
     //明道云私有部署域名
     protected $host;
+    //worksheetId
+    public static $worksheetId;
+    //字段对照关系
+    const WORK_SHEET_MAP = [];
     //获取列表参数
     protected $getParams = [];
     //filters
     protected $filters = [];
     //获取列表API
     protected $getListApiV2 = '/api/v2/open/worksheet/getFilterRows';
+    //获取工作表结构
+    protected $getWorkSheetMap = '/api/v2/open/worksheet/getWorksheetInfo';
 
     public function __construct()
     {
@@ -51,15 +57,32 @@ class MingDaoYun extends Kernel
     }
 
     /**
+     * Notes:
+     * User: Lany
+     * DateTime: 2021/12/31 10:47 上午
+     * @param string $worksheetId
+     * @return $this
+     * @throws Exceptions\HttpException
+     */
+    public function table(string $worksheetId)
+    {
+        self::$worksheetId = $worksheetId;
+        $this->getParams['worksheetId'] = $worksheetId;
+        $this->setWorkSheetMap();
+
+        return $this;
+    }
+
+    /**
      * Notes:获取工作表数据
      * User: Lany
      * DateTime: 2021/12/30 10:12 上午
-     * @param string $worksheetId
      * @return array | Exception
+     * @throws Exceptions\HttpException
      */
-    public function get(string $worksheetId = '')
+    public function get()
     {
-        return $this->getList($worksheetId);
+        return $this->getList();
     }
 
     /**
@@ -128,6 +151,7 @@ class MingDaoYun extends Kernel
      */
     public function where($map, string $condition='', string $value='')
     {
+        Filter::$spliceType = 1;
         $this->buildFilters($map, $condition, $value);
         return $this;
     }
@@ -149,14 +173,34 @@ class MingDaoYun extends Kernel
         return $this;
     }
 
-    public function whereNull()
+    /**
+     * Notes:
+     * User: Lany
+     * DateTime: 2021/12/31 9:33 上午
+     * @param string $field
+     * @return $this
+     * @throws InvalidArgumentException
+     */
+    public function whereNull(string $field)
     {
-        //todo
+        Filter::$spliceType = 1;
+        $this->buildFilters($field, null);
+        return $this;
     }
 
-    public function whereNotNull()
+    /**
+     * Notes:
+     * User: Lany
+     * DateTime: 2021/12/31 9:38 上午
+     * @param string $field
+     * @return $this
+     * @throws InvalidArgumentException
+     */
+    public function whereNotNull(string $field)
     {
-        //todo
+        Filter::$spliceType = 1;
+        $this->buildFilters($field, false);
+        return $this;
     }
 
     public function whereBetween()
@@ -167,6 +211,38 @@ class MingDaoYun extends Kernel
     public function whereNotBetween()
     {
         //todo
+    }
+
+    /**
+     * Notes:
+     * User: Lany
+     * DateTime: 2021/12/31 10:20 上午
+     * @param string $field
+     * @param string $date
+     * @return $this
+     * @throws InvalidArgumentException
+     */
+    public function whereDate(string $field,string $date)
+    {
+        Filter::$spliceType = 1;
+        $this->buildFilters($field, 17, $date);
+        return $this;
+    }
+
+    /**
+     * Notes:
+     * User: Lany
+     * DateTime: 2021/12/31 10:21 上午
+     * @param string $field
+     * @param string $date
+     * @return $this
+     * @throws InvalidArgumentException
+     */
+    public function whereNotDate(string $field,string $date)
+    {
+        Filter::$spliceType = 1;
+        $this->buildFilters($field, 18, $date);
+        return $this;
     }
 
 }
