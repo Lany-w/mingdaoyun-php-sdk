@@ -15,6 +15,10 @@ namespace Lany\MingDaoYun\Facade;
  * @method static buildFilters($map, $condition='', $value='')
  * @method static findOne()
  * @method static getRelations()
+ * @method static addRow()
+ * @method static addRows()
+ * @method static del()
+ * @method static editRow()
  */
 class Kernel extends Facade
 {
