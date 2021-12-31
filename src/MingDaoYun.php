@@ -8,7 +8,6 @@
 namespace Lany\MingDaoYun;
 
 use Lany\MingDaoYun\Exceptions\Exception;
-use Lany\MingDaoYun\Exceptions\InvalidArgumentException;
 use Lany\MingDaoYun\Facade\Kernel;
 
 /**
@@ -18,27 +17,27 @@ use Lany\MingDaoYun\Facade\Kernel;
 class MingDaoYun
 {
     //明道云APPKEY
-    public static $appKey;
+    public static string $appKey;
     //明道云 sign
-    public static $sign;
+    public static string $sign;
     //明道云私有部署域名
-    public static $host;
+    public static string $host;
     //worksheetId
-    public static $worksheetId = '';
+    public static string $worksheetId = '';
     //字段对照关系
-    public static $worksheetMap = [];
+    public static array $worksheetMap = [];
     //获取列表参数
-    public static $getParams = [];
+    public static array $getParams = [];
     //filters
-    public static $filters = [];
+    public static array $filters = [];
     //获取列表API
-    public static $getListUri = '/api/v2/open/worksheet/getFilterRows';
+    public static string $getListUri = '/api/v2/open/worksheet/getFilterRows';
     //获取工作表结构
-    public static $getWorkSheetMapUri = '/api/v2/open/worksheet/getWorksheetInfo';
+    public static string $getWorkSheetMapUri = '/api/v2/open/worksheet/getWorksheetInfo';
     //获取行记录详情
-    public static $getListByIdUri = '/api/v2/open/worksheet/getRowByIdPost';
+    public static string $getListByIdUri = '/api/v2/open/worksheet/getRowByIdPost';
     //获取关联记录
-    public static $getRelationsUri = '/api/v2/open/worksheet/getRowRelations';
+    public static string $getRelationsUri = '/api/v2/open/worksheet/getRowRelations';
 
     public function __construct()
     {
@@ -68,7 +67,6 @@ class MingDaoYun
      * DateTime: 2021/12/31 10:47 上午
      * @param string $worksheetId
      * @return $this
-     * @throws Exceptions\HttpException
      */
     public function table(string $worksheetId): MingDaoYun
     {
@@ -83,7 +81,6 @@ class MingDaoYun
      * User: Lany
      * DateTime: 2021/12/30 10:12 上午
      * @return array | Exception
-     * @throws Exceptions\HttpException
      */
     public function get()
     {
@@ -202,7 +199,6 @@ class MingDaoYun
      * @param string $condition
      * @param string $value
      * @return $this
-     * @throws InvalidArgumentException
      */
     public function where($map, string $condition = '', string $value = ''): MingDaoYun
     {
@@ -219,7 +215,6 @@ class MingDaoYun
      * @param string $condition
      * @param string $value
      * @return $this
-     * @throws InvalidArgumentException
      */
     public function whereOr($map, string $condition = '', string $value = ''): MingDaoYun
     {
@@ -234,7 +229,6 @@ class MingDaoYun
      * DateTime: 2021/12/31 9:33 上午
      * @param string $field
      * @return $this
-     * @throws InvalidArgumentException
      */
     public function whereNull(string $field): MingDaoYun
     {
@@ -249,7 +243,6 @@ class MingDaoYun
      * DateTime: 2021/12/31 9:38 上午
      * @param string $field
      * @return $this
-     * @throws InvalidArgumentException
      */
     public function whereNotNull(string $field): MingDaoYun
     {
@@ -275,7 +268,6 @@ class MingDaoYun
      * @param string $field
      * @param string $date
      * @return $this
-     * @throws InvalidArgumentException
      */
     public function whereDate(string $field, string $date): MingDaoYun
     {
@@ -291,7 +283,6 @@ class MingDaoYun
      * @param string $field
      * @param string $date
      * @return $this
-     * @throws InvalidArgumentException
      */
     public function whereNotDate(string $field, string $date): MingDaoYun
     {
