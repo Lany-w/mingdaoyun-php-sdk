@@ -7,7 +7,6 @@
 
 namespace Lany\MingDaoYun\Tests;
 
-use Lany\MingDaoYun\Exceptions\InvalidArgumentException;
 use Lany\MingDaoYun\Facade\MingDaoYun;
 use PHPUnit\Framework\TestCase;
 
@@ -21,7 +20,7 @@ class MingDaoYunSortTest extends TestCase
 
     public function testSort()
     {
-        $mdy = MingDaoYun::setUpMingDao(self::appKey, self::appSecret, self::url);
+        $mdy = MingDaoYun::init(self::appKey, self::appSecret, self::url);
         $res = $mdy->limit(1)->get(self::workSheetTest);
         $total = $res['data']['total'];
         $count = $total;
