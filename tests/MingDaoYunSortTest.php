@@ -7,7 +7,6 @@
 
 namespace Lany\MingDaoYun\Tests;
 
-use Lany\MingDaoYun\Exceptions\InvalidArgumentException;
 use Lany\MingDaoYun\Facade\MingDaoYun;
 use PHPUnit\Framework\TestCase;
 
