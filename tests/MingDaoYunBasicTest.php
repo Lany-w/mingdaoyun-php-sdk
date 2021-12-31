@@ -21,7 +21,7 @@ class MingDaoYunBasicTest extends TestCase
     public function testGetWithoutWorkSheetId()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('worksheetId请求参数错误');
+        $this->expectExceptionMessage('init error:请设置appkey,sign,host,worksheetId');
         $mdy = MingDaoYun::init('appKey', 'sign', 'host');
         $mdy->get();
     }
@@ -36,7 +36,7 @@ class MingDaoYunBasicTest extends TestCase
     public function testHttpGet()
     {
         $mdy = MingDaoYun::init(self::appKey, self::appSecret, self::url);
-        $data = $mdy->get(self::workSheetTest);
+        $data = $mdy->table(self::workSheetTest)->get();
         $this->assertArrayHasKey('data', $data);
     }
 
@@ -44,7 +44,7 @@ class MingDaoYunBasicTest extends TestCase
     {
         $mdy = MingDaoYun::init(self::appKey, self::appSecret, self::url);
         $count = 2;
-        $data = $mdy->limit($count)->get(self::workSheetTest);
+        $data = $mdy->table(self::workSheetTest)->limit($count)->get();
         if ($data['data']['total'] > $count) {
             $this->assertArrayHasKey('data', $data);
             $this->assertCount($count, $data['data']['rows']);
@@ -57,11 +57,11 @@ class MingDaoYunBasicTest extends TestCase
     public function testPage()
     {
         $mdy = MingDaoYun::init(self::appKey, self::appSecret, self::url);
-        $res = $mdy->limit(1)->get(self::workSheetTest);
+        $res = $mdy->table(self::workSheetTest)->limit(1)->get();
         $total = $res['data']['total'];
         $pageSize = 100;
         $lastPage = ceil($total / $pageSize) + 1;
-        $data = $mdy->limit($pageSize)->page($lastPage)->get(self::workSheetTest);
+        $data = $mdy->table(self::workSheetTest)->limit($pageSize)->page($lastPage)->get();
         $this->assertArrayHasKey('data', $data);
         $this->assertCount(0, $data['data']['rows']);
     }
@@ -69,11 +69,11 @@ class MingDaoYunBasicTest extends TestCase
     public function testSort()
     {
         $mdy = MingDaoYun::init(self::appKey, self::appSecret, self::url);
-        $res = $mdy->limit(1)->get(self::workSheetTest);
+        $res = $mdy->table(self::workSheetTest)->limit(1)->get();
         $total = $res['data']['total'];
         $count = $total;
         $field = '60efbf797b786d8a492bfce7';
-        $res = $mdy->limit($count)->sort($field)->get(self::workSheetTest);
+        $res = $mdy->table(self::workSheetTest)->limit($count)->sort($field)->get();
         $this->assertArrayHasKey('data', $res);
         $this->assertCount($count, $res['data']['rows']);
 
@@ -82,7 +82,7 @@ class MingDaoYunBasicTest extends TestCase
         $lastData = $data['rows'][$count - 1];
         $this->assertGreaterThan(intval($firstData[$field]), intval($lastData[$field]));
 
-        $res = $mdy->limit($count)->sort($field, false)->get(self::workSheetTest);
+        $res = $mdy->table(self::workSheetTest)->limit($count)->sort($field, false)->get();
         $data = $res['data'];
         $firstData = $data['rows'][0];
         $lastData = $data['rows'][$count - 1];
