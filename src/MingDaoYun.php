@@ -22,9 +22,9 @@ class MingDaoYun extends Kernel
     //明道云私有部署域名
     protected $host;
     //worksheetId
-    public static $worksheetId;
+    public static $worksheetId = '';
     //字段对照关系
-    const WORK_SHEET_MAP = [];
+    public static $worksheetMap = [];
     //获取列表参数
     protected $getParams = [];
     //filters
@@ -67,7 +67,6 @@ class MingDaoYun extends Kernel
     public function table(string $worksheetId)
     {
         self::$worksheetId = $worksheetId;
-        $this->getParams['worksheetId'] = $worksheetId;
         $this->setWorkSheetMap();
 
         return $this;
