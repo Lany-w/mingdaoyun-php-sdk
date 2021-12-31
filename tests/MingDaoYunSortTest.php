@@ -21,7 +21,7 @@ class MingDaoYunSortTest extends TestCase
 
     public function testSort()
     {
-        $mdy = MingDaoYun::setUpMingDao(self::appKey, self::appSecret, self::url);
+        $mdy = MingDaoYun::init(self::appKey, self::appSecret, self::url);
         $res = $mdy->limit(1)->get(self::workSheetTest);
         $total = $res['data']['total'];
         $count = $total;
