@@ -124,6 +124,7 @@ class MingDaoYun extends Kernel
      * @param string $condition
      * @param string $value
      * @return $this
+     * @throws InvalidArgumentException
      */
     public function where($map, string $condition='', string $value='')
     {
@@ -131,6 +132,16 @@ class MingDaoYun extends Kernel
         return $this;
     }
 
+    /**
+     * Notes:
+     * User: Lany
+     * DateTime: 2021/12/31 8:48 上午
+     * @param $map
+     * @param string $condition
+     * @param string $value
+     * @return $this
+     * @throws InvalidArgumentException
+     */
     public function whereOr($map, string $condition='', string $value='')
     {
         Filter::$spliceType = 2;
