@@ -13,22 +13,22 @@ class Kernel
 {
     public function getList()
     {
-        return $this->exec($this->getListApiV2);
+        return $this->exec(MingDaoYun::$getListUri);
     }
 
     public function findOne()
     {
-        return $this->exec($this->getListById);
+        return $this->exec(MingDaoYun::$getListByIdUri);
     }
 
     public function getRelations()
     {
-        return $this->exec($this->getRelationsUri);
+        return $this->exec(MingDaoYun::$getRelationsUri);
     }
 
     public function setWorkSheetMap()
     {
-        $data = $this->exec($this->getWorkSheetMap);
+        $data = $this->exec(MingDaoYun::$getWorkSheetMapUri);
         MingDaoYun::$worksheetMap[MingDaoYun::$worksheetId] = $data['data'];
     }
 
@@ -46,7 +46,7 @@ class Kernel
     {
         $this->checkAppInit();
         $params = $this->buildRequestParams();
-        $response = Http::client()->post($this->host.$uri, [
+        $response = Http::client()->post(MingDaoYun::$host.$uri, [
             'headers' => ['Content-Type' => 'application/json'],
             'json' => $params
         ]);
@@ -64,7 +64,7 @@ class Kernel
      */
     public function checkAppInit()
     {
-        if (!$this->appKey || !$this->sign || !$this->host || !static::$worksheetId) {
+        if (!MingDaoYun::$appKey || !MingDaoYun::$sign || !MingDaoYun::$host || !MingDaoYun::$worksheetId) {
             throw new InvalidArgumentException('init error:请设置appkey,sign,host,worksheetId');
         }
     }
@@ -78,18 +78,18 @@ class Kernel
     public function buildRequestParams()
     {
         $basic = [
-            'appKey' => $this->appKey,
-            'sign' => $this->sign,
+            'appKey' => MingDaoYun::$appKey,
+            'sign' => MingDaoYun::$sign,
             'worksheetId' => MingDaoYun::$worksheetId
         ];
 
-        if (!empty($this->filters)) {
-            $basic['filters'] = $this->filters;
-            $this->filters = [];
+        if (!empty(MingDaoYun::$filters)) {
+            $basic['filters'] = MingDaoYun::$filters;
+            MingDaoYun::$filters = [];
         }
 
-        $params = array_merge($basic, $this->getParams);
-        $this->getParams = [];
+        $params = array_merge($basic, MingDaoYun::$getParams);
+        MingDaoYun::$getParams = [];
         return $params;
     }
 
@@ -105,14 +105,14 @@ class Kernel
     public function buildFilters($map, $condition, $value = '')
     {
         if (is_array($map)) {
-            $this->filters[] = Filter::filterTypeCreate($map);
+            MingDaoYun::$filters[] = Filter::filterTypeCreate($map);
         } else {
             if ($condition !== null && $condition !== false) {
                 if (!$condition || !$value) {
                     throw new InvalidArgumentException('请求缺少参数~');
                 }
             }
-            $this->filters[] = Filter::filterTypeCreate($map, $condition, $value);
+            MingDaoYun::$filters[] = Filter::filterTypeCreate($map, $condition, $value);
         }
     }
 }

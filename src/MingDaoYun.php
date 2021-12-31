@@ -8,35 +8,36 @@ namespace Lany\MingDaoYun;
 
 use Lany\MingDaoYun\Exceptions\Exception;
 use Lany\MingDaoYun\Exceptions\InvalidArgumentException;
+use Lany\MingDaoYun\Facade\Kernel;
 
 /**
  * Class MingDaoYun
  * @package Lany\MingDaoYun
  */
-class MingDaoYun extends Kernel
+class MingDaoYun
 {
     //明道云APPKEY
-    protected $appKey;
+    public static $appKey;
     //明道云 sign
-    protected $sign;
+    public static $sign;
     //明道云私有部署域名
-    protected $host;
+    public static $host;
     //worksheetId
     public static $worksheetId = '';
     //字段对照关系
     public static $worksheetMap = [];
     //获取列表参数
-    protected $getParams = [];
+    public static $getParams = [];
     //filters
-    protected $filters = [];
+    public static $filters = [];
     //获取列表API
-    protected $getListApiV2 = '/api/v2/open/worksheet/getFilterRows';
+    public static $getListUri = '/api/v2/open/worksheet/getFilterRows';
     //获取工作表结构
-    protected $getWorkSheetMap = '/api/v2/open/worksheet/getWorksheetInfo';
+    public static $getWorkSheetMapUri = '/api/v2/open/worksheet/getWorksheetInfo';
     //获取行记录详情
-    protected $getListById = '/api/v2/open/worksheet/getRowByIdPost';
+    public static $getListByIdUri = '/api/v2/open/worksheet/getRowByIdPost';
     //获取关联记录
-    protected $getRelationsUri = '/api/v2/open/worksheet/getRowRelations';
+    public static $getRelationsUri = '/api/v2/open/worksheet/getRowRelations';
 
     public function __construct()
     {
@@ -53,9 +54,9 @@ class MingDaoYun extends Kernel
      */
     public function init(string $appKey,string $sign,string $host)
     {
-        $this->appKey = $appKey;
-        $this->sign = $sign;
-        $this->host = $host;
+        self::$appKey = $appKey;
+        self::$sign = $sign;
+        self::$host = $host;
 
         return $this;
     }
@@ -71,7 +72,7 @@ class MingDaoYun extends Kernel
     public function table(string $worksheetId)
     {
         self::$worksheetId = $worksheetId;
-        $this->setWorkSheetMap();
+        Kernel::setWorkSheetMap();
 
         return $this;
     }
@@ -85,7 +86,7 @@ class MingDaoYun extends Kernel
      */
     public function get()
     {
-        return $this->getList();
+        return Kernel::getList();
     }
 
     /**
@@ -97,8 +98,8 @@ class MingDaoYun extends Kernel
      */
     public function find(string $rowId)
     {
-        $this->getParams['rowId'] = $rowId;
-        return $this->findOne();
+        self::$getParams['rowId'] = $rowId;
+        return Kernel::findOne();
     }
 
     /**
@@ -111,11 +112,17 @@ class MingDaoYun extends Kernel
      */
     public function with(string $rowId, string $controlId)
     {
-        $this->getParams['rowId'] = $rowId;
-        $this->getParams['controlId'] = $controlId;
+        self::$getParams['rowId'] = $rowId;
+        self::$getParams['controlId'] = $controlId;
         return $this;
     }
 
+    /**
+     * Notes:获取明道云表结构
+     * User: Lany
+     * DateTime: 2021/12/31 2:01 下午
+     * @return mixed
+     */
     public function fieldMap()
     {
         return self::$worksheetMap[self::$worksheetId];
@@ -129,7 +136,7 @@ class MingDaoYun extends Kernel
      */
     public function relations()
     {
-        return $this->getRelations();
+        return Kernel::getRelations();
     }
 
     /**
@@ -141,7 +148,7 @@ class MingDaoYun extends Kernel
      */
     public function view(string $viewId)
     {
-        $this->getParams['viewId'] = $viewId;
+        self::$getParams['viewId'] = $viewId;
         return $this;
     }
 
@@ -154,7 +161,7 @@ class MingDaoYun extends Kernel
      */
     public function limit(int $int = 8)
     {
-        $this->getParams['pageSize'] = $int;
+        self::$getParams['pageSize'] = $int;
         return $this;
     }
 
@@ -167,7 +174,7 @@ class MingDaoYun extends Kernel
      */
     public function page(int $int = 1)
     {
-        $this->getParams['pageIndex'] = $int;
+        self::$getParams['pageIndex'] = $int;
         return $this;
     }
 
@@ -181,8 +188,8 @@ class MingDaoYun extends Kernel
      */
     public function sort(string $field, bool $asc = true)
     {
-        $this->getParams['sortId'] = $field;
-        $this->getParams['isAsc'] = $asc;
+        self::$getParams['sortId'] = $field;
+        self::$getParams['isAsc'] = $asc;
         return $this;
     }
 
@@ -199,7 +206,7 @@ class MingDaoYun extends Kernel
     public function where($map, string $condition='', string $value='')
     {
         Filter::$spliceType = 1;
-        $this->buildFilters($map, $condition, $value);
+        Kernel::buildFilters($map, $condition, $value);
         return $this;
     }
 
@@ -216,7 +223,7 @@ class MingDaoYun extends Kernel
     public function whereOr($map, string $condition='', string $value='')
     {
         Filter::$spliceType = 2;
-        $this->buildFilters($map, $condition, $value);
+        Kernel::buildFilters($map, $condition, $value);
         return $this;
     }
 
@@ -231,7 +238,7 @@ class MingDaoYun extends Kernel
     public function whereNull(string $field)
     {
         Filter::$spliceType = 1;
-        $this->buildFilters($field, null);
+        Kernel::buildFilters($field, null);
         return $this;
     }
 
@@ -246,7 +253,7 @@ class MingDaoYun extends Kernel
     public function whereNotNull(string $field)
     {
         Filter::$spliceType = 1;
-        $this->buildFilters($field, false);
+        Kernel::buildFilters($field, false);
         return $this;
     }
 
@@ -272,7 +279,7 @@ class MingDaoYun extends Kernel
     public function whereDate(string $field,string $date)
     {
         Filter::$spliceType = 1;
-        $this->buildFilters($field, 17, $date);
+        Kernel::buildFilters($field, 17, $date);
         return $this;
     }
 
@@ -288,7 +295,7 @@ class MingDaoYun extends Kernel
     public function whereNotDate(string $field,string $date)
     {
         Filter::$spliceType = 1;
-        $this->buildFilters($field, 18, $date);
+        Kernel::buildFilters($field, 18, $date);
         return $this;
     }
 
