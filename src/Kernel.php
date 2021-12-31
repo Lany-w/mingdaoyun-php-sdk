@@ -6,26 +6,62 @@
  */
 namespace Lany\MingDaoYun;
 
+use GuzzleHttp\Exception\GuzzleException;
 use Lany\MingDaoYun\Exceptions\HttpException;
 use Lany\MingDaoYun\Exceptions\InvalidArgumentException;
 
 class Kernel
 {
+    /**
+     * Notes:
+     * User: Lany
+     * DateTime: 2021/12/31 3:27 下午
+     * @return mixed
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     * @throws GuzzleException
+     */
     public function getList()
     {
         return $this->exec(MingDaoYun::$getListUri);
     }
 
+    /**
+     * Notes:
+     * User: Lany
+     * DateTime: 2021/12/31 3:27 下午
+     * @return mixed
+     * @throws GuzzleException
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     */
     public function findOne()
     {
         return $this->exec(MingDaoYun::$getListByIdUri);
     }
 
+    /**
+     * Notes:
+     * User: Lany
+     * DateTime: 2021/12/31 3:27 下午
+     * @return mixed
+     * @throws GuzzleException
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     */
     public function getRelations()
     {
         return $this->exec(MingDaoYun::$getRelationsUri);
     }
 
+    /**
+     * Notes:
+     * User: Lany
+     * DateTime: 2021/12/31 3:28 下午
+     * @throws GuzzleException
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     */
     public function setWorkSheetMap()
     {
         $data = $this->exec(MingDaoYun::$getWorkSheetMapUri);
@@ -40,7 +76,7 @@ class Kernel
      * @return mixed
      * @throws HttpException
      * @throws InvalidArgumentException
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function exec(string $uri)
     {
