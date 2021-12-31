@@ -13,35 +13,32 @@ class Kernel
 {
     public function getList()
     {
-        $this->checkAppInit();
-        $params = $this->buildRequestParams();
-        $response = Http::client()->post($this->host.$this->getListApiV2, [
-            'headers' => ['Content-Type' => 'application/json'],
-            'json' => $params
-        ]);
+        return $this->exec($this->getListApiV2);
+    }
 
-        if ($response->getStatusCode() != 200) {
-            throw new HttpException($response->getBody(), $response->getStatusCode());
-        }
-        static::$worksheetId = '';
-        return json_decode($response->getBody()->getContents(), true);
+    public function findOne()
+    {
+        return $this->exec($this->getListById);
     }
 
     public function setWorkSheetMap()
     {
+        $data = $this->exec($this->getWorkSheetMap);
+        MingDaoYun::$worksheetMap[MingDaoYun::$worksheetId] = $data['data'];
+    }
+
+    public function exec(string $uri)
+    {
         $this->checkAppInit();
         $params = $this->buildRequestParams();
-        $response = Http::client()->post($this->host.$this->getWorkSheetMap, [
+        $response = Http::client()->post($this->host.$uri, [
             'headers' => ['Content-Type' => 'application/json'],
             'json' => $params
         ]);
         if ($response->getStatusCode() != 200) {
             throw new HttpException($response->getBody(), $response->getStatusCode());
         }
-
-        $data = json_decode($response->getBody()->getContents(), true);
-
-        MingDaoYun::$worksheetMap[MingDaoYun::$worksheetId] = $data['data'];
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     public function checkAppInit()
