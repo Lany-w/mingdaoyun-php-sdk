@@ -10,6 +10,15 @@ class Filter
 {
     public static $spliceType = 1;
 
+    /**
+     * Notes:生成filter
+     * User: Lany
+     * DateTime: 2021/12/31 1:14 下午
+     * @param $field
+     * @param string $symbol
+     * @param string $value
+     * @return array
+     */
     public static function filterTypeCreate($field, $symbol = '', $value = '')
     {
         if (is_array($field)) {
@@ -25,6 +34,15 @@ class Filter
         }
     }
 
+    /**
+     * Notes:filter枚举
+     * User: Lany
+     * DateTime: 2021/12/31 1:14 下午
+     * @param $field
+     * @param $symbol
+     * @param string $value
+     * @return array
+     */
     public static function filterTypeEnum($field, $symbol, $value='')
     {
         if ($symbol === null) {
@@ -75,6 +93,13 @@ class Filter
         ];
     }
 
+    /**
+     * Notes:获取字段dataType
+     * User: Lany
+     * DateTime: 2021/12/31 1:14 下午
+     * @param $field
+     * @return mixed
+     */
     public static function getFieldDataType($field)
     {
         $map = MingDaoYun::$worksheetMap[MingDaoYun::$worksheetId]['controls'];
