@@ -8,7 +8,7 @@ namespace Lany\MingDaoYun;
 
 class Filter
 {
-    public static $spliceType = 1;
+    public static int $spliceType = 1;
 
     /**
      * Notes:生成filter
