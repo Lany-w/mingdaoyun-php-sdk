@@ -151,4 +151,59 @@ class Kernel
             MingDaoYun::$filters[] = Filter::filterTypeCreate($map, $condition, $value);
         }
     }
+
+    /**
+     * Notes:
+     * User: Lany
+     * DateTime: 2021/12/31 4:04 下午
+     * @return mixed
+     * @throws GuzzleException
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     */
+    public function addRow()
+    {
+        return $this->exec(MingDaoYun::$addRowUri);
+    }
+
+    /**
+     * Notes:
+     * User: Lany
+     * DateTime: 2021/12/31 4:12 下午
+     * @return mixed
+     * @throws GuzzleException
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     */
+    public function addRows()
+    {
+        return $this->exec(MingDaoYun::$addRowsUri);
+    }
+
+    /**
+     * Notes:
+     * User: Lany
+     * DateTime: 2021/12/31 4:19 下午
+     * @return mixed
+     * @throws GuzzleException
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     */
+    public function del()
+    {
+        return $this->exec(MingDaoYun::$deleteUri);
+    }
+
+    /**
+     * Notes:
+     * User: Lany
+     * DateTime: 2021/12/31 4:48 下午
+     * @throws GuzzleException
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     */
+    public function editRow()
+    {
+        return $this->exec(MingDaoYun::$editRowUri);
+    }
 }

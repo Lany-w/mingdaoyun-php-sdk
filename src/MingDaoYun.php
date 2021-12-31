@@ -38,6 +38,14 @@ class MingDaoYun
     public static string $getListByIdUri = '/api/v2/open/worksheet/getRowByIdPost';
     //获取关联记录
     public static string $getRelationsUri = '/api/v2/open/worksheet/getRowRelations';
+    //新增记录
+    public static string $addRowUri = '/api/v2/open/worksheet/addRow';
+    //批量新增记录
+    public static string $addRowsUri = '/api/v2/open/worksheet/addRows';
+    //删除记录
+    public static string $deleteUri = '/api/v2/open/worksheet/deleteRow';
+    //更新单行记录
+    public static string $editRowUri = '/api/v2/open/worksheet/editRow';
 
     public function __construct()
     {
@@ -196,14 +204,14 @@ class MingDaoYun
      * User: Lany
      * DateTime: 2021/12/30 3:47 下午
      * @param mixed $map
-     * @param string $condition
+     * @param string $op
      * @param string $value
      * @return $this
      */
-    public function where($map, string $condition = '', string $value = ''): MingDaoYun
+    public function where($map, string $op = '', string $value = ''): MingDaoYun
     {
         Filter::$spliceType = 1;
-        Kernel::buildFilters($map, $condition, $value);
+        Kernel::buildFilters($map, $op, $value);
         return $this;
     }
 
@@ -212,14 +220,14 @@ class MingDaoYun
      * User: Lany
      * DateTime: 2021/12/31 8:48 上午
      * @param $map
-     * @param string $condition
+     * @param string $op
      * @param string $value
      * @return $this
      */
-    public function whereOr($map, string $condition = '', string $value = ''): MingDaoYun
+    public function whereOr($map, string $op = '', string $value = ''): MingDaoYun
     {
         Filter::$spliceType = 2;
-        Kernel::buildFilters($map, $condition, $value);
+        Kernel::buildFilters($map, $op, $value);
         return $this;
     }
 
@@ -289,6 +297,51 @@ class MingDaoYun
         Filter::$spliceType = 1;
         Kernel::buildFilters($field, 18, $date);
         return $this;
+    }
+
+    /**
+     * Notes:新增记录
+     * User: Lany
+     * DateTime: 2021/12/31 4:05 下午
+     * @param array $data
+     * @return mixed
+     */
+    public function insert(array $data)
+    {
+        self::$getParams['controls'] = $data;
+        return Kernel::addRow();
+    }
+
+    /**
+     * Notes:批量新增记录
+     * User: Lany
+     * DateTime: 2021/12/31 4:12 下午
+     * @param array $data
+     * @return mixed
+     */
+    public function create(array $data)
+    {
+        self::$getParams['rows'] = $data;
+        return Kernel::addRows();
+    }
+
+    /**
+     * Notes:删除记录,多个rowId用(,)逗号隔开
+     * User: Lany
+     * DateTime: 2021/12/31 4:17 下午
+     * @param string $rowId
+     */
+    public function delete(string $rowId)
+    {
+        self::$getParams['rowId'] = $rowId;
+        return Kernel::del();
+    }
+
+    public function update(string $rowId, array $data)
+    {
+        self::$getParams['rowId'] = $rowId;
+        self::$getParams['controls'] = $data;
+        return Kernel::editRow();
     }
 
 }
