@@ -46,6 +46,8 @@ class MingDaoYun
     public static string $deleteUri = '/api/v2/open/worksheet/deleteRow';
     //更新单行记录
     public static string $editRowUri = '/api/v2/open/worksheet/editRow';
+    //批量更新行记录
+    public static string $editRowsUri = '/api/v2/open/worksheet/editRows';
 
     public function __construct()
     {
@@ -79,7 +81,9 @@ class MingDaoYun
     public function table(string $worksheetId): MingDaoYun
     {
         self::$worksheetId = $worksheetId;
-        Kernel::setWorkSheetMap();
+        if (!isset(self::$worksheetMap[$worksheetId])) {
+            Kernel::setWorkSheetMap();
+        }
 
         return $this;
     }
@@ -216,7 +220,7 @@ class MingDaoYun
     }
 
     /**
-     * Notes:
+     * Notes:使用whereOr时,必须要写在where()之前
      * User: Lany
      * DateTime: 2021/12/31 8:48 上午
      * @param $map
@@ -337,11 +341,34 @@ class MingDaoYun
         return Kernel::del();
     }
 
+    /**
+     * Notes:更新单选记录
+     * User: Lany
+     * DateTime: 2022/1/4 9:24 上午
+     * @param string $rowId
+     * @param array $data
+     * @return mixed
+     */
     public function update(string $rowId, array $data)
     {
         self::$getParams['rowId'] = $rowId;
         self::$getParams['controls'] = $data;
         return Kernel::editRow();
+    }
+
+    /**
+     * Notes:批量更新行记录(明道云只支持每次更新一个控件)
+     * User: Lany
+     * DateTime: 2022/1/4 9:35 上午
+     * @param array $rowIds
+     * @param array $data
+     * @return mixed
+     */
+    public function updateRows(array $rowIds, array $data)
+    {
+        self::$getParams['rowIds'] = $rowIds;
+        self::$getParams['control'] = $data;
+        return Kernel::editRows();
     }
 
 }
