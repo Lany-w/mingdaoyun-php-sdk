@@ -19,6 +19,7 @@ namespace Lany\MingDaoYun\Facade;
  * @method static addRows()
  * @method static del()
  * @method static editRow()
+ * @method static editRows()
  */
 class Kernel extends Facade
 {
