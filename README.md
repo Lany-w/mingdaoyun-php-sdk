@@ -12,7 +12,7 @@ mingdaoyun-PHP-SDK
 ## Installing
 
 ```shell
-$ composer require lany/mingdaoyun -vvv
+$ composer require lany/mingdaoyun
 ```
 
 ## Usage
