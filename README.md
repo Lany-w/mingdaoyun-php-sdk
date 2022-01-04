@@ -117,12 +117,12 @@ $mdy->table('worksheetId')->whereNotNull('field');
 ### whereDate
 > 日期是
 ```php
-$mdy->table('worksheetId')->whereDate('field');
+$mdy->table('worksheetId')->whereDate('field', '2022-02-22');
 ```
 ### whereNotDate
 > 日期不是
 ```php
-$mdy->table('worksheetId')->whereNotDate('field');
+$mdy->table('worksheetId')->whereNotDate('field', '2022-02-22');
 ```
 ### get
 > 获取工作表内容
