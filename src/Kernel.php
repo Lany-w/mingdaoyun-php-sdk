@@ -206,4 +206,18 @@ class Kernel
     {
         return $this->exec(MingDaoYun::$editRowUri);
     }
+
+    /**
+     * Notes:
+     * User: Lany
+     * DateTime: 2022/1/4 9:29 上午
+     * @return mixed
+     * @throws GuzzleException
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     */
+    public function editRows()
+    {
+        return $this->exec(MingDaoYun::$editRowsUri);
+    }
 }
