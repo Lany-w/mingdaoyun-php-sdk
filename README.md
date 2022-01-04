@@ -28,6 +28,7 @@ $host = "http://xxx.xxx.com"; //私有部署域名
 $mdy = MingDaoYun::init($appKey, $sign, $host);
 $data = $mdy->table('worksheetId')->get();
 ````  
+
 ## Function
 
 - [init](#init)
@@ -54,93 +55,145 @@ $data = $mdy->table('worksheetId')->get();
 - [updateRows](#updateRows)
 
 ### init
-> 设置初始化参数  
+
+> 设置初始化参数
+
 ```php
 $mdy = MingDaoYun::init('APPKEY', 'SIGN', '部署域名');
 ```
 
-### table  
-> 设置工作表  
+### table
+
+> 设置工作表
+
 ```php
 $mdy->table('worksheetId');
 ```  
-### limit  
+
+### limit
+
 > 要获取的数据行数
+
 ```php
 $mdy->table('worksheetId')->limit(5);
 ```
-### page  
+
+### page
+
 > 设置页码
+
 ```php
 $mdy->table('worksheetId')->page(5);
 ```
-### fieldMap  
+
+### fieldMap
+
 > 获取字段对照关系(明道云工作表结构)
+
 ```php
 $mdy->table('worksheetId')->fieldMap();
 ```
-### with  
+
+### with
+
 > 要获取关联记录时,设置rowId,controlId
+
 ```php
 $mdy->table('worksheetId')->with('rowId', 'controlId');
 ```
-### relations  
+
+### relations
+
 > 获取关联记录
+
 ```php
 $mdy->table('worksheetId')->with('rowId', 'controlId')->relations();
 ```
-### sort  
+
+### sort
+
 > 设置排序字段,默认为升序
+
 ```php
 $mdy->table('worksheetId')->sort('field', $bool);
 ```
-### whereOr  
+
+### whereOr
+
 > 设置筛选条件,以or的方式拼接下一个条件,使用whereOr时必须写在where()之前
+
 ```php
 $mdy->table('worksheetId')->whereOr('field', '=', '123');
 ```
-### where  
-> 设置筛选条件,以and的方式拼接下一个条件,目前支持的运算符有`like`,`=`,`!=`,`>`,`>=`,`<`,`<=`
+
+### where
+
+> 设置筛选条件,以and的方式拼接下一个条件,目前支持的运算符有`contains`,`notContain`,`startWith`,`endWith`,`=`,`!=`,`>`,`>=`,`<`,`<=`
+
 ```php
 $mdy->table('worksheetId')->where('field', '!=', '123');
 ```
+
 ### whereNull
+
 > 字段为空
+
 ```php
 $mdy->table('worksheetId')->whereNull('field');
 ```
+
 ### whereNotNull
+
 > 字段为不为空
+
 ```php
 $mdy->table('worksheetId')->whereNotNull('field');
 ```
+
 ### whereDate
+
 > 日期是
+
 ```php
 $mdy->table('worksheetId')->whereDate('field', '2022-02-22');
 ```
+
 ### whereNotDate
+
 > 日期不是
+
 ```php
 $mdy->table('worksheetId')->whereNotDate('field', '2022-02-22');
 ```
+
 ### get
+
 > 获取工作表内容
+
 ```php
 $mdy->table('worksheetId')->limit(1)->page(1)->get();
 ```
+
 ### find
+
 > 获取单条记录(行记录详情)
+
 ```php
 $mdy->table('worksheetId')->find('rowId');
 ```
+
 ### view
+
 > 设置视图ID
+
 ```php
 $mdy->table('worksheetId')->view('view')->get();
 ```
+
 ### insert
+
 > 新增单条记录,按明道云新增controls参数格式传入data即可
+
 ```php
 $data = [
     ['controlId' => 'controlId', 'value' => 'value'],
@@ -148,8 +201,11 @@ $data = [
 ];
 $mdy->table('worksheetId')->insert($data);
 ```
+
 ### create
+
 > 批量新增记录,按明道云批量新增rows参数格式传入data即可
+
 ```php
 $data = [
     [
@@ -160,13 +216,19 @@ $data = [
 ];
 $mdy->table('worksheetId')->create($data);
 ```
+
 ### delete
+
 > 删除行记录,多条记录以`,`分隔rowId
+
 ```php
 $mdy->table('worksheetId')->delete('rowId');
 ```
+
 ### update
+
 > 更新单行记录
+
 ```php
 $update = [
     ['controlId' => '60efbf797b786d8a492bfce2', 'value' => '波波波力'],
@@ -174,8 +236,11 @@ $update = [
 ];
 $mdy->table('worksheetId')->update('rowId', $update);
 ```
+
 ### updateRows
+
 > 批量更新行记录,(目前明道只支持每次更新一个字段)
+
 ```php
 $rowIds = [
     'rowId1', 'rowId2'
@@ -187,8 +252,6 @@ $update = [
 $mdy->table('worksheetId')->updateRows($rowIds, $update);
 ```
 
-
-
 ## Contributing
 
 You can contribute in one of three ways:
@@ -197,8 +260,8 @@ You can contribute in one of three ways:
 2. Answer questions or fix bugs on the [issue tracker](https://github.com/lany/mingdaoyun/issues).
 3. Contribute new features or update the wiki.
 
-_The code contribution process is not very formal. You just need to make sure that you follow the PSR-0, PSR-1, and
-PSR-2 coding guidelines. Any new code contributions must be accompanied by unit tests where applicable._
+_The code contribution process is not very formal. You just need to make sure that you follow the PSR-0, PSR-1, and PSR-2 coding guidelines. Any new code contributions must be accompanied by unit
+tests where applicable._
 
 ## License
 
