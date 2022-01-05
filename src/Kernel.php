@@ -144,7 +144,7 @@ class Kernel
             MingDaoYun::$filters[] = Filter::filterTypeCreate($map);
         } else {
             if ($condition !== null && $condition !== false) {
-                if (!$condition || !$value) {
+                if ($condition === '' || $value === '') {
                     throw new InvalidArgumentException('请求缺少参数~');
                 }
             }
