@@ -30,4 +30,26 @@ class MingDaoYunInsertTest extends TestCase
         $this->assertArrayHasKey('success', $res);
     }
 
+
+    public function testCreate()
+    {
+        $mdy = MingDaoYun::init(self::appKey, self::appSecret, self::url);
+        $data =
+            [
+                [
+                    ['controlId' => '60efbf797b786d8a492bfce1', 'value' => '商品标题测试' . rand()],
+                    ['controlId' => '60efbf797b786d8a492bfce2', 'value' => '商品名称测试' . rand()],
+                ],
+                [
+                    ['controlId' => '60efbf797b786d8a492bfce1', 'value' => '商品标题测试' . rand()],
+                    ['controlId' => '60efbf797b786d8a492bfce2', 'value' => '商品名称测试' . rand()],
+                ]
+            ];
+        $res = $mdy->table(self::workSheetTest)->create($data);
+
+        $this->assertArrayHasKey('data', $res);
+        $this->assertEquals(count($data), $res['data']);
+
+    }
+
 }
