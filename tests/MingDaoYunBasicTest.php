@@ -66,6 +66,19 @@ class MingDaoYunBasicTest extends TestCase
         $this->assertCount(0, $data['data']['rows']);
     }
 
+
+    public function testFieldMap()
+    {
+        $mdy = MingDaoYun::init(self::appKey, self::appSecret, self::url);
+        $res = $mdy->table(self::workSheetTest)->fieldMap();
+        print_r($res);
+        $this->assertArrayHasKey('worksheetId', $res);
+        $this->assertArrayHasKey('name', $res);
+        $this->assertArrayHasKey('views', $res);
+        $this->assertArrayHasKey('controls', $res);
+
+    }
+
     public function testSort()
     {
         $mdy = MingDaoYun::init(self::appKey, self::appSecret, self::url);
