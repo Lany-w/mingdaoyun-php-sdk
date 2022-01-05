@@ -11,7 +11,7 @@ use Lany\MingDaoYun\Exceptions\InvalidArgumentException;
 use Lany\MingDaoYun\Facade\MingDaoYun;
 use PHPUnit\Framework\TestCase;
 
-class MingDaoYunGetSortTest extends TestCase
+class MingDaoYunFilterTest extends TestCase
 {
     const appKey = '5922C61C66CF67AF';
     const appSecret = 'OWI4M2EwOGFmNDZiMmI5YTAwN2IxMzYyYTNkYzQ1ZjJlYzYwMjUzY2VlYWYwYTlmYmIzMzJjN2ZjOGZlMDQ5NQ==';
