@@ -184,4 +184,35 @@ class MingDaoYunFilterTest extends TestCase
         $this->assertLessThan(1, count($res['data']['rows']));
         $this->assertLessThan(1, $res['data']['total']);
     }
+
+    public function testWhereDate()
+    {
+        $mdy = MingDaoYun::init(self::appKey, self::appSecret, self::url);
+
+        $data = [
+            ['controlId' => '60efbf797b786d8a492bfce1', 'value' => '商品标题测试' . rand()],
+            ['controlId' => '60efbf797b786d8a492bfce2', 'value' => '商品名称测试' . rand()],
+        ];
+        $res = $mdy->table(self::workSheetTest)->insert($data);
+        $this->assertArrayHasKey('data', $res);
+        $this->assertArrayHasKey('success', $res);
+
+        $res = $mdy->table(self::workSheetTest)->whereDate('ctime', date('Y-m-d H:i:s'))->get();
+        $this->assertArrayHasKey('data', $res);
+        $this->assertArrayHasKey('success', $res);
+        $this->assertGreaterThan(1, count($res['data']['rows']));
+        $this->assertGreaterThan(1, $res['data']['total']);
+    }
+
+    public function testWhereDateNot()
+    {
+        $mdy = MingDaoYun::init(self::appKey, self::appSecret, self::url);
+
+
+        $res = $mdy->table(self::workSheetTest)->whereNotDate('ctime', date('Y-m-d H:i:s'))->get();
+        $this->assertArrayHasKey('data', $res);
+        $this->assertArrayHasKey('success', $res);
+        $this->assertGreaterThan(1, count($res['data']['rows']));
+        $this->assertGreaterThan(1, $res['data']['total']);
+    }
 }
