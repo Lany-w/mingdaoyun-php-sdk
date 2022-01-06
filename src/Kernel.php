@@ -12,6 +12,8 @@ use Lany\MingDaoYun\Exceptions\InvalidArgumentException;
 
 class Kernel
 {
+    public static bool $isClearParams = true;
+
     /**
      * Notes:
      * User: Lany
@@ -23,6 +25,21 @@ class Kernel
      */
     public function getList()
     {
+        //默认最多获取1000条记录
+        if (!isset(MingDaoYun::$getParams['pageSize'])) {
+            MingDaoYun::$getParams['pageSize'] = 1000;
+        }
+
+        //超过1000时
+        if (MingDaoYun::$getParams['pageSize'] > 1000) {
+            $total = MingDaoYun::$getParams['pageSize'];
+            MingDaoYun::$getParams['pageSize'] = 1000;
+            static::$isClearParams = false;
+
+            $data = $this->exec(MingDaoYun::$getListUri);
+            $data['data']['rows'] = $this->fetch($total, $data['data']['rows']);
+            return $data;
+        }
         return $this->exec(MingDaoYun::$getListUri);
     }
 
@@ -121,11 +138,14 @@ class Kernel
 
         if (!empty(MingDaoYun::$filters)) {
             $basic['filters'] = MingDaoYun::$filters;
-            MingDaoYun::$filters = [];
         }
 
         $params = array_merge($basic, MingDaoYun::$getParams);
-        MingDaoYun::$getParams = [];
+        if (static::$isClearParams) {
+            MingDaoYun::$filters = [];
+            MingDaoYun::$getParams = [];
+        }
+
         return $params;
     }
 
@@ -219,5 +239,75 @@ class Kernel
     public function editRows()
     {
         return $this->exec(MingDaoYun::$editRowsUri);
+    }
+
+    /**
+     * Notes:
+     * User: Lany
+     * DateTime: 2022/1/6 10:57 上午
+     * @return int|mixed
+     * @throws GuzzleException
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     */
+    public function rowsCount()
+    {
+        MingDaoYun::$getParams['pageSize'] = 1;
+        $result =  $this->getList();
+        return $result['data']['total'] ?: 0;
+    }
+
+    /**
+     * Notes:
+     * User: Lany
+     * DateTime: 2022/1/6 11:29 上午
+     * @return mixed
+     * @throws GuzzleException
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     */
+    public function fetchAll()
+    {
+        unset(MingDaoYun::$getParams['pageSize']);
+        ini_set('memory_limit','1024M');
+        static::$isClearParams = false;
+        $data = $this->getList();
+        $total = $data['data']['total'];
+        if ($total > 1000) {
+            $data['data']['rows'] = $this->fetch($total, $data['data']['rows']);
+        }
+        return $data;
+    }
+
+    /**
+     * Notes:
+     * User: Lany
+     * DateTime: 2022/1/6 1:37 下午
+     * @param $total
+     * @param $rows
+     * @throws GuzzleException
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     * @return array
+     */
+    public function fetch($total, $rows)
+    {
+        $flag = ceil($total/1000);
+        $total -=  1000;
+        for ($i = 2; $i <= $flag; $i ++) {
+
+            if ($total > 1000) {
+                $total -= 1000;
+            }
+
+            if ($i == $flag) {
+                MingDaoYun::$getParams['pageSize'] = $total;
+                static::$isClearParams = true;
+            }
+            MingDaoYun::$getParams['pageIndex'] = $i;
+            $result = $this->getList();
+            $rows = array_merge($rows, $result['data']['rows']);
+        }
+        return $rows;
     }
 }

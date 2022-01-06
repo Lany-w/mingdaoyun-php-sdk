@@ -114,7 +114,7 @@ class Filter
     {
         $map = MingDaoYun::$worksheetMap[MingDaoYun::$worksheetId]['controls'];
         $arr = array_filter($map, function ($item) use ($field) {
-            return $item['controlId'] == $field;
+            return ($item['controlId'] == $field || (isset($item['alias']) && $item['alias'] == $field));
         });
         $arr = array_pop($arr);
         return $arr['type'];

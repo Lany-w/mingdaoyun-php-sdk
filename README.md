@@ -53,6 +53,8 @@ $data = $mdy->table('worksheetId')->get();
 - [delete](#delete)
 - [update](#update)
 - [updateRows](#updateRows)
+- [all](#all)
+- [count](#count)
 
 ### init
 
@@ -168,7 +170,8 @@ $mdy->table('worksheetId')->whereNotDate('field', '2022-02-22');
 
 ### get
 
-> 获取工作表内容
+> 获取工作表内容  
+> `1.1.0`修改为默认最多获取1000条数据,如需获取更多数据请使用`limit`设置,获取所有数据请使用`all`
 
 ```php
 $mdy->table('worksheetId')->limit(1)->page(1)->get();
@@ -250,6 +253,24 @@ $update = [
     'controlId' => 'controlId', 'value' => 'value'
 ];
 $mdy->table('worksheetId')->updateRows($rowIds, $update);
+```
+
+### all
+
+> 获取所有数据  
+> <small>此方法为`1.1.0新增`</small>
+
+```php
+$mdy->table('worksheetId')->all();
+```
+
+### count
+
+> 统计数据行数  
+><small>此方法为`1.1.0新增`</small>
+
+```php
+$mdy->table('worksheetId')->count();
 ```
 
 ## Contributing
