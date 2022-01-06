@@ -89,7 +89,7 @@ class MingDaoYun
     }
 
     /**
-     * Notes:获取工作表数据
+     * Notes:获取工作表数据,最多获取1000条
      * User: Lany
      * DateTime: 2021/12/30 10:12 上午
      * @return array | Exception
@@ -131,9 +131,9 @@ class MingDaoYun
      * Notes:获取明道云表结构
      * User: Lany
      * DateTime: 2021/12/31 2:01 下午
-     * @return mixed
+     * @return array
      */
-    public function fieldMap()
+    public function fieldMap() :array
     {
         return self::$worksheetMap[self::$worksheetId];
     }
@@ -308,9 +308,9 @@ class MingDaoYun
      * User: Lany
      * DateTime: 2021/12/31 4:05 下午
      * @param array $data
-     * @return mixed
+     * @return array
      */
-    public function insert(array $data)
+    public function insert(array $data) :array
     {
         self::$getParams['controls'] = $data;
         return Kernel::addRow();
@@ -321,9 +321,9 @@ class MingDaoYun
      * User: Lany
      * DateTime: 2021/12/31 4:12 下午
      * @param array $data
-     * @return mixed
+     * @return array
      */
-    public function create(array $data)
+    public function create(array $data) :array
     {
         self::$getParams['rows'] = $data;
         return Kernel::addRows();
@@ -334,8 +334,9 @@ class MingDaoYun
      * User: Lany
      * DateTime: 2021/12/31 4:17 下午
      * @param string $rowId
+     * @return array
      */
-    public function delete(string $rowId)
+    public function delete(string $rowId) :array
     {
         self::$getParams['rowId'] = $rowId;
         return Kernel::del();
@@ -347,9 +348,9 @@ class MingDaoYun
      * DateTime: 2022/1/4 9:24 上午
      * @param string $rowId
      * @param array $data
-     * @return mixed
+     * @return array
      */
-    public function update(string $rowId, array $data)
+    public function update(string $rowId, array $data) :array
     {
         self::$getParams['rowId'] = $rowId;
         self::$getParams['controls'] = $data;
@@ -362,13 +363,35 @@ class MingDaoYun
      * DateTime: 2022/1/4 9:35 上午
      * @param array $rowIds
      * @param array $data
-     * @return mixed
+     * @return array
      */
-    public function updateRows(array $rowIds, array $data)
+    public function updateRows(array $rowIds, array $data) :array
     {
         self::$getParams['rowIds'] = $rowIds;
         self::$getParams['control'] = $data;
         return Kernel::editRows();
+    }
+
+    /**
+     * Notes:count
+     * User: Lany
+     * DateTime: 2022/1/6 10:45 上午
+     * @return int
+     */
+    public function count() :int
+    {
+        return Kernel::rowsCount();
+    }
+
+    /**
+     * Notes:获取全部数据
+     * User: Lany
+     * DateTime: 2022/1/6 12:35 下午
+     * @return array
+     */
+    public function all() :array
+    {
+        return Kernel::fetchAll();
     }
 
 }
