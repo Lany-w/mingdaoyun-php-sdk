@@ -18,7 +18,7 @@ class MingDaoYunFindTest extends TestCase
     const workSheetTest = '60efbf797b786d8a492bfcee';
 
 
-    public function testFind()
+    public function testDelete()
     {
         $title = '商品名称测试' . rand();
         $titleControlId = '60efbf797b786d8a492bfce2';
@@ -41,6 +41,11 @@ class MingDaoYunFindTest extends TestCase
 
         $mdy->table(self::workSheetTest)->delete($rowid);
 
+        $res = $mdy->table(self::workSheetTest)->find($rowid);
+        $this->assertArrayHasKey('error_msg', $res);
+        $this->assertArraynotHasKey('data', $res);
+        $this->assertEquals(10007, $res['error_code']);
     }
+
 
 }
