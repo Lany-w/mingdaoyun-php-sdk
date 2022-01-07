@@ -37,7 +37,9 @@ class Kernel
             static::$isClearParams = false;
 
             $data = $this->exec(MingDaoYun::$getListUri);
-            $data['data']['rows'] = $this->fetch($total, $data['data']['rows']);
+            if ($data['data']['total'] > 1000) {
+                $data['data']['rows'] = $this->fetch($total, $data['data']['rows'], 1000);
+            }
             return $data;
         }
         return $this->exec(MingDaoYun::$getListUri);
@@ -61,13 +63,30 @@ class Kernel
      * Notes:
      * User: Lany
      * DateTime: 2021/12/31 3:27 下午
+     * @param bool $isAll
      * @return mixed
      * @throws GuzzleException
      * @throws HttpException
      * @throws InvalidArgumentException
      */
-    public function getRelations()
+    public function getRelations(bool $isAll)
     {
+        $size = MingDaoYun::$getParams['pageSize'] ?? 0;
+        if ($isAll) {
+            return $this->fetchAll(100, MingDaoYun::$getRelationsUri);
+        }
+        if ($size > 100) {
+            $total = MingDaoYun::$getParams['pageSize'];
+            MingDaoYun::$getParams['pageSize'] = 100;
+            static::$isClearParams = false;
+
+            $data = $this->exec(MingDaoYun::$getRelationsUri);
+
+            if ($data['data']['total'] > 100) {
+                $data['data']['rows'] = $this->fetch($total, $data['data']['rows'], 100);
+            }
+            return $data;
+        }
         return $this->exec(MingDaoYun::$getRelationsUri);
     }
 
@@ -262,19 +281,21 @@ class Kernel
      * User: Lany
      * DateTime: 2022/1/6 11:29 上午
      * @return mixed
+     * @param $count
+     * @param $uri
      * @throws GuzzleException
      * @throws HttpException
      * @throws InvalidArgumentException
      */
-    public function fetchAll()
+    public function fetchAll($count, $uri)
     {
-        unset(MingDaoYun::$getParams['pageSize']);
+        MingDaoYun::$getParams['pageSize'] = $count;
         ini_set('memory_limit','1024M');
         static::$isClearParams = false;
-        $data = $this->getList();
+        $data = $this->exec($uri);
         $total = $data['data']['total'];
-        if ($total > 1000) {
-            $data['data']['rows'] = $this->fetch($total, $data['data']['rows']);
+        if ($total > $count) {
+            $data['data']['rows'] = $this->fetch($total, $data['data']['rows'], $count);
         }
         return $data;
     }
@@ -285,19 +306,20 @@ class Kernel
      * DateTime: 2022/1/6 1:37 下午
      * @param $total
      * @param $rows
+     * @param $count
      * @throws GuzzleException
      * @throws HttpException
      * @throws InvalidArgumentException
      * @return array
      */
-    public function fetch($total, $rows)
+    public function fetch($total, $rows, $count)
     {
-        $flag = ceil($total/1000);
-        $total -=  1000;
+        $flag = ceil($total/$count);
+        $total -=  $count;
         for ($i = 2; $i <= $flag; $i ++) {
 
-            if ($total > 1000) {
-                $total -= 1000;
+            if ($total > $count) {
+                $total -= $count;
             }
 
             if ($i == $flag) {
