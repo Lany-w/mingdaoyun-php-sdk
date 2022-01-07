@@ -165,9 +165,7 @@ class MingDaoYunFilterTest extends TestCase
     public function testWhereNotNull()
     {
         $mdy = MingDaoYun::init(self::appKey, self::appSecret, self::url);
-        $title = '商品名称测试' . rand();
         $titleControlId = '60efbf797b786d8a492bfce2';
-
         $res = $mdy->table(self::workSheetTest)->whereNotNull($titleControlId)->get();
         $this->assertArrayHasKey('data', $res);
         $this->assertArrayHasKey('success', $res);
@@ -227,4 +225,25 @@ class MingDaoYunFilterTest extends TestCase
         $this->assertGreaterThan(1, count($res['data']['rows']));
         $this->assertGreaterThan(1, $res['data']['total']);
     }
+
+
+    public function testWhereOrTest()
+    {
+        $mdy = MingDaoYun::init(self::appKey, self::appSecret, self::url);
+
+
+        $res = $mdy->table(self::workSheetTest)->where('60efbf797b786d8a492bfce7', '=', 0)->get();
+        $this->assertArrayHasKey('data', $res);
+        $this->assertArrayHasKey('success', $res);
+        $count1 = $res['data']['total'];
+
+        $res = $mdy->table(self::workSheetTest)->whereOr('60efbf797b786d8a492bfce7', '>', 0)
+            ->whereNotDate('ctime', date('Y-m-d H:i:s'))->get();
+        $this->assertArrayHasKey('data', $res);
+        $this->assertArrayHasKey('success', $res);
+        $count2 = $res['data']['total'];
+
+        $this->assertGreaterThan($count1, $count2);
+    }
+
 }
