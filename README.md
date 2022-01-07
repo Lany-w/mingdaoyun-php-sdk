@@ -106,7 +106,8 @@ $mdy->table('worksheetId')->with('rowId', 'controlId');
 
 ### relations
 
-> 获取关联记录
+> 获取关联记录  
+>1.1.1修改为默认获取100条关联记录,`relations(true)`获取所有关联记录
 
 ```php
 $mdy->table('worksheetId')->with('rowId', 'controlId')->relations();
