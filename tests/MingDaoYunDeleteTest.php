@@ -10,7 +10,7 @@ namespace Lany\MingDaoYun\Tests;
 use Lany\MingDaoYun\Facade\MingDaoYun;
 use PHPUnit\Framework\TestCase;
 
-class MingDaoYunDeleteTest extends TestCase
+class MingDaoYunFindTest extends TestCase
 {
     const appKey = '5922C61C66CF67AF';
     const appSecret = 'OWI4M2EwOGFmNDZiMmI5YTAwN2IxMzYyYTNkYzQ1ZjJlYzYwMjUzY2VlYWYwYTlmYmIzMzJjN2ZjOGZlMDQ5NQ==';
@@ -18,7 +18,7 @@ class MingDaoYunDeleteTest extends TestCase
     const workSheetTest = '60efbf797b786d8a492bfcee';
 
 
-    public function testDelete()
+    public function testFind()
     {
         $title = '商品名称测试' . rand();
         $titleControlId = '60efbf797b786d8a492bfce2';
@@ -41,9 +41,6 @@ class MingDaoYunDeleteTest extends TestCase
 
         $mdy->table(self::workSheetTest)->delete($rowid);
 
-        $res = $mdy->table(self::workSheetTest)->find($rowid);
-        $this->assertArrayHasKey('error_msg', $res);
-        $this->assertEquals(10007, $res['error_code']);
     }
 
 }
