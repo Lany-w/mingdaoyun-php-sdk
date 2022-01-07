@@ -142,11 +142,12 @@ class MingDaoYun
      * Notes:获取关联记录
      * User: Lany
      * DateTime: 2021/12/31 1:25 下午
+     * @param bool $isAll 是否获取所有关联记录(明道云默认100条)
      * @return mixed
      */
-    public function relations()
+    public function relations(bool $isAll = false)
     {
-        return Kernel::getRelations();
+        return Kernel::getRelations($isAll);
     }
 
     /**
@@ -391,7 +392,7 @@ class MingDaoYun
      */
     public function all() :array
     {
-        return Kernel::fetchAll();
+        return Kernel::fetchAll(1000, MingDaoYun::$getListUri);
     }
 
 }
