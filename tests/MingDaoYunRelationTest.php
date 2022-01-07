@@ -34,4 +34,18 @@ class MingDaoYunRelationTest extends TestCase
 
     }
 
+    public function testRelationAllRows()
+    {
+        $relationControlId = '60efbf797b786d8a492bfced';
+        $mdy = MingDaoYun::init(self::appKey, self::appSecret, self::url);
+        $data = $mdy->table(self::workSheetTest)->whereNotNull($relationControlId)->get();
+        $this->assertGreaterThan(1, $data['data']['rows']);
+        $firstDataRowId = $data['data']['rows'][0]['rowid'];
+        $relationsData = $mdy->table(self::workSheetTest)->with($firstDataRowId, $relationControlId)->relations(true);
+        $this->assertArrayHasKey('data', $relationsData);
+        $this->assertArrayHasKey('success', $relationsData);
+        $this->assertArrayHasKey('error_code', $relationsData);
+        $this->assertGreaterThan(1, $relationsData['data']['rows']);
+
+    }
 }

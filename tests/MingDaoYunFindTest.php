@@ -33,11 +33,14 @@ class MingDaoYunFindTest extends TestCase
         $rowid = $res['data'];
 
         $res = $mdy->table(self::workSheetTest)->find($rowid);
-        print_r($res);
+
         $this->assertArrayHasKey('data', $res);
         $this->assertArrayHasKey('success', $res);
         $this->assertEquals($title, $res['data'][$titleControlId]);
         $this->assertEquals($rowid, $res['data']['rowid']);
+
+        $mdy->table(self::workSheetTest)->delete($rowid);
+
     }
 
 }
