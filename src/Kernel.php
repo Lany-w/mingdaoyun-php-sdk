@@ -38,7 +38,7 @@ class Kernel
 
             $data = $this->exec(MingDaoYun::$getListUri);
             if ($data['data']['total'] > 1000) {
-                $data['data']['rows'] = $this->fetch($total, $data['data']['rows'], 1000);
+                $data['data']['rows'] = $this->fetch($total, $data['data']['rows'], 1000, MingDaoYun::$getListUri);
             }
             return $data;
         }
@@ -83,7 +83,7 @@ class Kernel
             $data = $this->exec(MingDaoYun::$getRelationsUri);
 
             if ($data['data']['total'] > 100) {
-                $data['data']['rows'] = $this->fetch($total, $data['data']['rows'], 100);
+                $data['data']['rows'] = $this->fetch($total, $data['data']['rows'], 100, MingDaoYun::$getRelationsUri);
             }
             return $data;
         }
@@ -295,7 +295,7 @@ class Kernel
         $data = $this->exec($uri);
         $total = $data['data']['total'];
         if ($total > $count) {
-            $data['data']['rows'] = $this->fetch($total, $data['data']['rows'], $count);
+            $data['data']['rows'] = $this->fetch($total, $data['data']['rows'], $count, $uri);
         }
         return $data;
     }
@@ -307,12 +307,13 @@ class Kernel
      * @param $total
      * @param $rows
      * @param $count
+     * @param $uri
      * @throws GuzzleException
      * @throws HttpException
      * @throws InvalidArgumentException
      * @return array
      */
-    public function fetch($total, $rows, $count)
+    public function fetch($total, $rows, $count, $uri)
     {
         $flag = ceil($total/$count);
         $total -=  $count;
@@ -327,7 +328,7 @@ class Kernel
                 static::$isClearParams = true;
             }
             MingDaoYun::$getParams['pageIndex'] = $i;
-            $result = $this->getList();
+            $result = $this->exec($uri);
             $rows = array_merge($rows, $result['data']['rows']);
         }
         return $rows;
