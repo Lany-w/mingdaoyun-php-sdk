@@ -43,6 +43,7 @@ class MingDaoYunDeleteTest extends TestCase
 
         $res = $mdy->table(self::workSheetTest)->find($rowid);
         $this->assertArrayHasKey('error_msg', $res);
+        $this->assertArraynotHasKey('data', $res);
         $this->assertEquals(10007, $res['error_code']);
     }
 
