@@ -74,13 +74,25 @@ class MingDaoYunFilterTest extends TestCase
 
     public function testWhereStartWith()
     {
+
+        $title = '商品名称测试' . rand();
+        $titleControlId = '60efbf797b786d8a492bfce2';
         $mdy = MingDaoYun::init(self::appKey, self::appSecret, self::url);
-        $res = $mdy->table(self::workSheetTest)->where('60efbf797b786d8a492bfce2', 'startWith', '测试')->get();
+        $data = [
+            ['controlId' => $titleControlId, 'value' => $title],
+        ];
+        $res = $mdy->table(self::workSheetTest)->insert($data);
+        $this->assertArrayHasKey('data', $res);
+        $this->assertArrayHasKey('success', $res);
+        $rowid = $res['data'];
+
+        $res = $mdy->table(self::workSheetTest)->where($titleControlId, 'startWith', '商品')->get();
         $this->assertArrayHasKey('data', $res);
         $this->assertArrayHasKey('success', $res);
         $this->assertGreaterThan(1, $res['data']['rows']);
         $this->assertGreaterThan(1, $res['data']['total']);
 
+        $mdy->table(self::workSheetTest)->delete($rowid);
     }
 
     public function testWhereEndWith()

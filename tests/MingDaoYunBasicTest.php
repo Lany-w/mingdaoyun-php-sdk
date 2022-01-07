@@ -71,7 +71,6 @@ class MingDaoYunBasicTest extends TestCase
     {
         $mdy = MingDaoYun::init(self::appKey, self::appSecret, self::url);
         $res = $mdy->table(self::workSheetTest)->fieldMap();
-        print_r($res);
         $this->assertArrayHasKey('worksheetId', $res);
         $this->assertArrayHasKey('name', $res);
         $this->assertArrayHasKey('views', $res);
@@ -79,29 +78,5 @@ class MingDaoYunBasicTest extends TestCase
 
     }
 
-    public function testSort()
-    {
-        $mdy = MingDaoYun::init(self::appKey, self::appSecret, self::url);
-        $res = $mdy->table(self::workSheetTest)->limit(1)->get();
-        $total = $res['data']['total'];
-        $count = $total;
-        $field = '60efbf797b786d8a492bfce7';
-        $res = $mdy->table(self::workSheetTest)->limit($count)->sort($field)->get();
-        $this->assertArrayHasKey('data', $res);
-        $this->assertCount($count, $res['data']['rows']);
-
-        $data = $res['data'];
-        $firstData = $data['rows'][0];
-        $lastData = $data['rows'][$count - 1];
-        $this->assertGreaterThan(intval($firstData[$field]), intval($lastData[$field]));
-
-        $res = $mdy->table(self::workSheetTest)->limit($count)->sort($field, false)->get();
-        $data = $res['data'];
-        $firstData = $data['rows'][0];
-        $lastData = $data['rows'][$count - 1];
-
-        $this->assertGreaterThan(intval($lastData[$field]), intval($firstData[$field]));
-
-    }
 
 }
