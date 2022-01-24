@@ -32,14 +32,14 @@ class MingDaoYunSortTest extends TestCase
         $data = $res['data'];
         $firstData = $data['rows'][0];
         $lastData = $data['rows'][$count - 1];
-        $this->assertGreaterThan(intval($firstData[$field]), intval($lastData[$field]));
+        $this->assertGreaterThan(intval($firstData[$field] ?? 0), intval($lastData[$field] ?? 0));
 
         $res = $mdy->table(self::workSheetTest)->limit($count)->sort($field, false)->get();
         $data = $res['data'];
         $firstData = $data['rows'][0];
         $lastData = $data['rows'][$count - 1];
 
-        $this->assertGreaterThan(intval($lastData[$field]), intval($firstData[$field]));
+        $this->assertGreaterThan(intval($lastData[$field] ?? 0), intval($firstData[$field] ?? 0));
 
     }
 
