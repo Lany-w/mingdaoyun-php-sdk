@@ -42,4 +42,32 @@ class MingDaoYunUpdateTest extends TestCase
 
     }
 
+
+    public function testUpdateRows()
+    {
+
+        $mdy = MingDaoYun::init(self::appKey, self::appSecret, self::url);
+        $res = $mdy->table(self::workSheetTest)->limit(5)->get();
+        $this->assertArrayHasKey('data', $res);
+        $this->assertArrayHasKey('success', $res);
+        $this->assertCount(5, $res['data']['rows']);
+        $rowId = [];
+        foreach ($res['data']['rows'] as $row) {
+            $rowId[] = $row['rowid'];
+        }
+        $titleId = '60efbf797b786d8a492bfce2';
+        $old_title = $res['data']['rows'][0][$titleId];
+        $random = rand(10000, 99999);
+        $new_title = $old_title . $random;
+        $update = [
+            ['controlId' => $titleId, 'value' => $new_title],
+        ];
+        $updateResult = $mdy->table(self::workSheetTest)->updateRows($rowId, $update);
+        $this->assertArrayHasKey('data', $res);
+        $this->assertEquals(1, $updateResult['success']);
+        $findData = $mdy->table(self::workSheetTest)->find($rowId[rand(0, 5)]);
+        $this->assertEquals($new_title, $findData['data'][$titleId]);
+
+    }
+
 }
