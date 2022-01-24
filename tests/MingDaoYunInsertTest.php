@@ -46,7 +46,6 @@ class MingDaoYunInsertTest extends TestCase
                 ]
             ];
         $res = $mdy->table(self::workSheetTest)->create($data);
-
         $this->assertArrayHasKey('data', $res);
         $this->assertEquals(count($data), $res['data']);
 
