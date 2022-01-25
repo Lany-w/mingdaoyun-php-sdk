@@ -59,9 +59,7 @@ class MingDaoYunUpdateTest extends TestCase
         $old_title = $res['data']['rows'][0][$titleId];
         $random = rand(10000, 99999);
         $new_title = $old_title . $random;
-        $update = [
-            ['controlId' => $titleId, 'value' => $new_title],
-        ];
+        $update = ['controlId' => $titleId, 'value' => $new_title];
         $updateResult = $mdy->table(self::workSheetTest)->updateRows($rowId, $update);
         $this->assertArrayHasKey('data', $res);
         $this->assertEquals(1, $updateResult['success']);
