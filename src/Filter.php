@@ -117,6 +117,6 @@ class Filter
             return ($item['controlId'] == $field || (isset($item['alias']) && $item['alias'] == $field));
         });
         $arr = array_pop($arr);
-        return $arr['type'];
+        return $arr['type'] ?? null;
     }
 }
