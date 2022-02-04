@@ -43,7 +43,14 @@ trait LaravelAdapter
         $columns = Schema::getColumnListing($tableName);
 
         $data = [];
-        $_data = $mdy->get();
+        if ($mdy instanceof MingDaoYun) {
+            $_data = $mdy->get();
+        } elseif(isset($mdy['data']['rows'])) {
+            $_data = $mdy;
+        } else {
+            throw new Exception("数据格式有误!");
+        }
+
         if ($_data['error_code'] != 1) throw new Exception("获取明道云数据失败!");
         try {
             foreach($_data['data']['rows'] as $key => $val) {
