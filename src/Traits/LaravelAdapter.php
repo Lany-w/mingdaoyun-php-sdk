@@ -38,9 +38,7 @@ trait LaravelAdapter
             }
         }
         //清空表
-        if (!$append) {
-            self::truncate();
-        }
+        if (!$append) self::truncate();
         //同步数据
         $columns = Schema::getColumnListing($tableName);
 
