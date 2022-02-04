@@ -7,6 +7,7 @@
 namespace Lany\MingDaoYun\Traits;
 
 use Lany\MingDaoYun\Exceptions\Exception;
+use Lany\MingDaoYun\Filter;
 use Lany\MingDaoYun\MingDaoYun;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -36,7 +37,36 @@ trait LaravelAdapter
                 abort(500, '创建数据表失败!');
             }
         }
+        //清空表
+        if (!$append) {
+            self::truncate();
+        }
         //同步数据
+        $columns = Schema::getColumnListing($tableName);
+
+        $data = [];
+        $_data = $mdy->get();
+        if ($_data['error_code'] != 1) throw new Exception("获取明道云数据失败!");
+        try {
+            foreach($_data['data']['rows'] as $key => $val) {
+                $arr = [];
+                foreach($columns as $column) {
+                    $v = isset($val[$column]) ? $val[$column] : '';
+                    if (Filter::getFieldDataType($column) == 14 && !empty($v)) $v = json_decode($v, true)[0]['original_file_full_path'];
+                    $arr[$column] = $v;
+                }
+                $arr['created_at'] = now();
+                $arr['updated_at'] = now();
+                unset($arr['id']);
+                $data[] = $arr;
+            }
+            self::query()->insert($data);
+        } catch (\Exception $exception) {
+            throw new Exception("error!");
+        }
+
+
+        return true;
     }
 
     /**
