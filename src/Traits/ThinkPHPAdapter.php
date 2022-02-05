@@ -7,7 +7,7 @@
 namespace Lany\MingDaoYun\Traits;
 
 use Lany\MingDaoYun\Exceptions\Exception;
-use think\Db;
+use think\App;
 
 trait ThinkPHPAdapter {
     use BaseSyncTrait;
@@ -28,26 +28,37 @@ trait ThinkPHPAdapter {
             //tableName不存在,查询与model相关的数据表是否存在
             $tableName = static::getModelRelationTableName();
         }
-        $exist = Db::query("show tables like '{$tableName}'");
+        $_DB = static::_DB();
+        $exist = $_DB::query("show tables like '{$tableName}'");
+
         if (!$exist) {
             // 表不存在, 创建数据表
             if (!static::createTable($tableName, $mdy)) {
                 abort(500, '创建数据表失败!');
             }
         }
-        if (!$append) Db::query("delete from {$tableName}");
+        if (!$append) $_DB::query("delete from {$tableName}");
         //获取所有field
         //插入数据
-        $columns = array_column(Db::query("select COLUMN_NAME from information_schema.COLUMNS where table_name = '{$tableName}'"), 'COLUMN_NAME');
+        $columns = array_column($_DB::query("select COLUMN_NAME from information_schema.COLUMNS where table_name = '{$tableName}'"), 'COLUMN_NAME');
         try {
             $data = static::insertDataHandle($mdy, $columns);
-            Db::name($tableName)->data($data)->limit(1000)->insertAll($data);
+            $_DB::name($tableName)->data($data)->limit(1000)->insertAll($data);
         } catch (\Exception $exception) {
             throw new Exception($exception->getMessage());
         }
         return true;
     }
 
+    /**
+     * Notes:创建数据表(TP6使用model时会检测表是否存在,5.1不会#吐槽)
+     * User: Lany
+     * DateTime: 2022/2/5 4:32 下午
+     * @param $tableName
+     * @param $mdy
+     * @return bool
+     * @throws Exception
+     */
     public static function createTable($tableName, $mdy)
     {
         $fieldMap = $mdy->fieldMap();
@@ -68,8 +79,23 @@ trait ThinkPHPAdapter {
         `created_at` VARCHAR (45) NOT NULL COMMENT '时间',
          PRIMARY KEY (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='表';";
-        Db::execute($sql);
+        $_DB::execute($sql);
         return true;
+    }
+
+    /**
+     * Notes:兼容TP5.1和TP6 (吐槽)
+     * User: Lany
+     * DateTime: 2022/2/5 4:24 下午
+     */
+    public static function _DB()
+    {
+        $version = (App::VERSION)[0];
+        if ($version == 5) {
+            return '\think\Db';
+        } elseif ($version == 6) {
+            return '\think\facade\Db';
+        }
     }
 
 }
