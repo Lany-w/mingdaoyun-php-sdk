@@ -7,7 +7,6 @@
 namespace Lany\MingDaoYun\Traits;
 
 use Lany\MingDaoYun\Exceptions\Exception;
-use Lany\MingDaoYun\Filter;
 use Lany\MingDaoYun\MingDaoYun;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -71,7 +70,9 @@ trait LaravelAdapter
                 $table->id();
                 $fieldType = static::fieldType();
                 foreach($fieldMap['controls'] as $key => $val) {
+                    //不用关联字段
                     if (array_key_exists($val['type'], $fieldType)) {
+                        //别名优先
                         $field = isset($val['alias']) && !empty($val['alias']) ?: $val['controlId'];
                         $table->string($field)->nullable()->comment($val['controlName']);
                     }
