@@ -42,34 +42,12 @@ trait LaravelAdapter
         //同步数据
         $columns = Schema::getColumnListing($tableName);
 
-        $data = [];
-        if ($mdy instanceof MingDaoYun) {
-            $_data = $mdy->get();
-        } elseif(isset($mdy['data']['rows'])) {
-            $_data = $mdy;
-        } else {
-            throw new Exception("数据格式有误!");
-        }
-
-        if ($_data['error_code'] != 1) throw new Exception("获取明道云数据失败!");
         try {
-            foreach($_data['data']['rows'] as $key => $val) {
-                $arr = [];
-                foreach($columns as $column) {
-                    $v = isset($val[$column]) ? $val[$column] : '';
-                    if (Filter::getFieldDataType($column) == 14 && !empty($v)) $v = json_decode($v, true)[0]['original_file_full_path'];
-                    $arr[$column] = $v;
-                }
-                $arr['created_at'] = now();
-                $arr['updated_at'] = now();
-                unset($arr['id']);
-                $data[] = $arr;
-            }
+            $data = static::insertDataHandle($mdy, $columns);
             self::query()->insert($data);
         } catch (\Exception $exception) {
             throw new Exception("error!");
         }
-
 
         return true;
     }
