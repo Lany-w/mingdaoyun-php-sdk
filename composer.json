@@ -15,7 +15,7 @@
     "require": {
         "guzzlehttp/guzzle": ">=7.4",
         "ext-json": "*",
-        "php": "^7.4",
+        "php": ">=7.4",
         "doctrine/inflector": "^2.0"
     },
     "autoload": {
@@ -32,6 +32,14 @@
             "providers": [
                 "Lany\\MingDaoYun\\Provider\\ServiceProvider"
             ]
+        },
+        "think": {
+            "services": [
+                "Lany\\MingDaoYun\\Provider\\ThinkPHPServiceProvider"
+            ],
+            "config": {
+                "mingdaoyun": "src/config/mingdaoyun.php"
+            }
         }
     }
 }
