@@ -107,11 +107,6 @@ trait LaravelAdapter
 
     }
 
-    public static function getTableName()
-    {
-        return (new self)->table;
-    }
-
 
 
 }
