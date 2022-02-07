@@ -112,7 +112,7 @@ $data = $mdy->table('worksheetId')->get();
 - [updateRows](#updateRows)
 - [all](#all)
 - [count](#count) 
-- [同步数据到本地数据库](#同步数据到本地数据库)
+- [同步数据到本地数据库](#同步数据到本地数据库 `1.2.0新增`)
 
 ### init
 
