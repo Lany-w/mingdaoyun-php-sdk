@@ -112,7 +112,7 @@ $data = $mdy->table('worksheetId')->get();
 - [updateRows](#updateRows)
 - [all](#all)
 - [count](#count) 
-- [同步数据到本地数据库](#同步数据到本地数据库 `1.2.0新增`)
+- [同步数据到本地数据库](#同步数据到本地数据库)
 
 ### init
 
@@ -332,8 +332,10 @@ $mdy->table('worksheetId')->all();
 $mdy->table('worksheetId')->count();
 ```  
 
-### 同步数据到本地数据库 `1.2.0新增`
+### 同步数据到本地数据库
 
+> `1.2.0新增`  
+> 
 > Laravel和ThinkPHP5.1如果不存在数据表会自动创建(ThinkPHP6需先手动创建数据表),以明道云字段别名创建数据字段,如不存在别名则使用明道控件ID创建    
 
 - 修改对应的`Model`文件
