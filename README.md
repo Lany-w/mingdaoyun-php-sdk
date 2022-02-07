@@ -15,8 +15,65 @@ mingdaoyun-PHP-SDK
 $ composer require lany/mingdaoyun
 ```
 
-## Usage
+## Usage  
 
+ - Laravel (>=5.5)  `1.2.0开始支持`
+ 
+   发布配置文件
+```shell
+$ php artisan vendor:publish --provider="Lany\MingDaoYun\Provider\ServiceProvider"
+```    
+  修改`.env`,添加配置 
+  ```php
+MINGDAOYUN_APP_KEY=xxx
+MINGDAOYUN_SIGN=xxx
+MINGDAOYUN_HOST=http://xxx.com
+  ```  
+ 示例代码  
+ ```php
+use Lany\MingDaoYun\MingDaoYun;
+ class IndexController extends Controller 
+{
+    //依赖注入方式
+    public function index(MingDaoYun $mdy)
+    {
+        $data = $mdy->table('60efbf797b786d8a492bfcee')->get();
+        dd($data);
+    }
+    //实例化服务方式
+    public function index1()
+    {
+         $data = app('mdy')->table('60efbf797b786d8a492bfcee')->get();
+         dd($data);
+    }
+}
+   
+ ```
+  
+ - ThinkPHP (>=5.1)   `1.2.0开始支持`  
+ > `5.1`请手动 `use Lany\MingDaoYun\Facade\MingDaoYun;` 使用, `6.0以上`可以使用下面的方式
+ 
+   修改`.env`,添加配置 
+  ```php
+ MINGDAOYUN_APP_KEY=xxx
+ MINGDAOYUN_SIGN=xxx
+ MINGDAOYUN_HOST=http://xxx.com
+   ```     
+
+  示例代码 
+ ```php
+class Index extends BaseController
+{
+
+    public function hello($name = 'ThinkPHP6')
+    {
+        $data = app('mdy')->table('60efbf797b786d8a492bfcee')->get();
+        var_dump($data);
+    }
+}
+
+```
+ - Other
 ```php
 require __DIR__.'/vendor/autoload.php';
 
@@ -54,7 +111,8 @@ $data = $mdy->table('worksheetId')->get();
 - [update](#update)
 - [updateRows](#updateRows)
 - [all](#all)
-- [count](#count)
+- [count](#count) 
+- [同步数据到本地数据库](#同步数据到本地数据库)
 
 ### init
 
@@ -272,6 +330,30 @@ $mdy->table('worksheetId')->all();
 
 ```php
 $mdy->table('worksheetId')->count();
+```  
+
+### 同步数据到本地数据库 `1.2.0新增`
+
+> Laravel和ThinkPHP5.1如果不存在数据表会自动创建(ThinkPHP6需先手动创建数据表),以明道云字段别名创建数据字段,如不存在别名则使用明道控件ID创建    
+
+- 修改对应的`Model`文件
+```php
+class ProductItem extends Model implements SyncAdapter
+{
+    //Laravel
+    use LaravelAdapter;
+    //ThinkPHP
+    use ThinkPHPAdapter;
+}
+```  
+- 调用`syncToDB`  
+
+```php
+    $data = app('mdy')->table('60efbf797b786d8a492bfcee')->all();
+    \App\Models\ProductItem::syncToDB($data);
+    //或者传入MingDaoYun实例
+     $data = app('mdy')->table('60efbf797b786d8a492bfcee')->limit(1);
+    \App\Models\ProductItem::syncToDB($data);
 ```
 
 ## Contributing
