@@ -71,11 +71,13 @@ class Kernel
      */
     public function getRelations(bool $isAll)
     {
-        $size = MingDaoYun::$getParams['pageSize'] ?? 0;
+        if (!isset(MingDaoYun::$getParams['pageSize'])) {
+            MingDaoYun::$getParams['pageSize'] = 100;
+        }
         if ($isAll) {
             return $this->fetchAll(100, MingDaoYun::$getRelationsUri);
         }
-        if ($size > 100) {
+        if (MingDaoYun::$getParams['pageSize'] > 100) {
             $total = MingDaoYun::$getParams['pageSize'];
             MingDaoYun::$getParams['pageSize'] = 100;
             static::$isClearParams = false;
@@ -315,18 +317,10 @@ class Kernel
      */
     public function fetch($total, $rows, $count, $uri)
     {
+        MingDaoYun::$getParams['pageSize'] = $count;
         $flag = ceil($total/$count);
-        $total -=  $count;
         for ($i = 2; $i <= $flag; $i ++) {
-
-            if ($total > $count) {
-                $total -= $count;
-            }
-
-            if ($i == $flag) {
-                MingDaoYun::$getParams['pageSize'] = $total;
-                static::$isClearParams = true;
-            }
+            if ($i == $flag) static::$isClearParams = true;
             MingDaoYun::$getParams['pageIndex'] = $i;
             $result = $this->exec($uri);
             $rows = array_merge($rows, $result['data']['rows']);
