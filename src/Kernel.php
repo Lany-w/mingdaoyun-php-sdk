@@ -317,7 +317,7 @@ class Kernel
      */
     public function fetch($total, $rows, $count, $uri)
     {
-        MingDaoYun::$getParams['pageSize'] = $count;
+        //MingDaoYun::$getParams['pageSize'] = $count;
         $flag = ceil($total/$count);
         for ($i = 2; $i <= $flag; $i ++) {
             if ($i == $flag) static::$isClearParams = true;
