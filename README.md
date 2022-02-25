@@ -361,7 +361,7 @@ class ProductItem extends Model implements SyncAdapter
 ## 鸣谢
 [JetBrains](https://jb.gg/OpenSourceSupport) 提供优秀的IDE。  
 
-<a href="https://www.jetbrains.com/?from=Chemex" target="_blank">
+<a href="https://www.jetbrains.com" target="_blank">
 <img src="https://tva1.sinaimg.cn/large/008eGmZEly1gov9g3tzrnj30u00wj0tn.jpg" width="150"/>
 </a>  
 
