@@ -356,7 +356,14 @@ class ProductItem extends Model implements SyncAdapter
     //或者传入MingDaoYun实例
      $data = app('mdy')->table('60efbf797b786d8a492bfcee')->limit(1);
     \App\Models\ProductItem::syncToDB($data);
-```
+```  
+
+## 鸣谢
+[JetBrains](https://jb.gg/OpenSourceSupport) 提供优秀的IDE。  
+
+<a href="https://www.jetbrains.com/?from=Chemex" target="_blank">
+<img src="https://tva1.sinaimg.cn/large/008eGmZEly1gov9g3tzrnj30u00wj0tn.jpg" width="150"/>
+</a>  
 
 ## Contributing
 
