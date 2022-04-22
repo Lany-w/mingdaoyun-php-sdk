@@ -120,7 +120,14 @@ class Kernel
     {
         $this->checkAppInit();
         $params = $this->buildRequestParams();
-        $response = Http::client()->post(MingDaoYun::$host.$uri, [
+
+        //兼容处理
+        if (strpos(MingDaoYun::$host, 'api.mingdao.com') !== false) {
+            $uri = str_replace('/api', '', $uri);
+        }
+        $url = MingDaoYun::$host.$uri;
+
+        $response = Http::client()->post($url, [
             'headers' => ['Content-Type' => 'application/json'],
             'json' => $params
         ]);
