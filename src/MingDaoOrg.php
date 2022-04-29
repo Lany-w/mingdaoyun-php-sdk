@@ -8,6 +8,7 @@ use Lany\MingDaoYun\Exceptions\InvalidArgumentException;
 
 class MingDaoOrg
 {
+
     // https://www.showdoc.com.cn/mingdao/15519621
 
     //明道APPKEY
@@ -24,7 +25,16 @@ class MingDaoOrg
     private $method = 'GET';
 
     //获取下级成员道云账号Id url
-    public static string $getListUri = '/v2/open/structure/GetSubordinateIds';
+    public static string $getSubordinateURL = '/v2/open/structure/GetSubordinateIds';
+
+    //添加汇报关系 url
+    public static string $addStructures = '/v2/open/structure/addStructures';
+
+    //移除汇报关系 url
+    public static string $removeStructures = '/v2/open/structure/removeStructures';
+
+    //替换汇报关系成员 url
+    public static string $replaceStructure = '/v2/open/structure/replaceStructure';
 
 
     public function __construct()
@@ -120,11 +130,69 @@ class MingDaoOrg
         return json_decode($response->getBody()->getContents(), true);
     }
 
-
+    /**
+     * 获取下级成员道云账号Id
+     * https://www.showdoc.com.cn/mingdao/7372249331332438
+     * @param string $superiorId 上级明道云账号Id，不传则代表只取顶级明道云账号Id
+     * @return mixed
+     * @throws GuzzleException
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     */
     public function getMySubordinate(string $superiorId = '')
     {
         $this->params['superiorId'] = $superiorId;
-        return $this->exec(self::$getListUri);
+        return $this->exec(self::$getSubordinateURL);
+    }
+
+    /**
+     * 添加汇报关系
+     * @param string $superior 上级的邮箱或手机号，不传则代表添加到顶级
+     * @param array $subordinates 下级成员的邮箱或手机号集合
+     * @return mixed
+     * @throws GuzzleException
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     */
+    public function addStructures(string $superior, array $subordinates)
+    {
+        $this->params['superior'] = $superior;
+        $this->params['subordinates'] = $subordinates;
+        $this->method = "POST";
+        return $this->exec(self::$addStructures);
+    }
+
+    /**
+     * 移除汇报关系
+     * @param array $subordinates 需要移除的成员邮箱或手机号集合
+     * @return mixed
+     * @throws GuzzleException
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     */
+    public function removeStructures(array $subordinates)
+    {
+        $this->params['subordinates'] = $subordinates;
+        $this->method = "POST";
+        return $this->exec(self::$removeStructures);
+    }
+
+
+    /**
+     * 替换汇报关系成员
+     * @param string $preSubordinate 原成员的邮箱或手机号
+     * @param string $newSubordinate 新成员的邮箱或手机号
+     * @return mixed
+     * @throws GuzzleException
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     */
+    public function replaceStructure(string $preSubordinate, string $newSubordinate)
+    {
+        $this->params['preSubordinate'] = $preSubordinate;
+        $this->params['subordinates'] = $newSubordinate;
+        $this->method = "POST";
+        return $this->exec(self::$replaceStructure);
     }
 
 }
