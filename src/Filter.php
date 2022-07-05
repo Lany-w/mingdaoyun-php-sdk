@@ -35,6 +35,11 @@ class Filter
         }
     }
 
+    public static function createArrayCondition($field, $symbol, $value)
+    {
+        return self::filterTypeEnum($field, $symbol, $value, true);
+    }
+
     /**
      * Notes:filter枚举
      * User: Lany
@@ -44,7 +49,7 @@ class Filter
      * @param string $value
      * @return array
      */
-    public static function filterTypeEnum($field, $symbol, $value = '')
+    public static function filterTypeEnum($field, $symbol, $value = '', $isArray = false)
     {
         if ($symbol === null) {
             $filterType = 7;
@@ -94,13 +99,19 @@ class Filter
             }
         }
 
-        return [
+        $example = [
             'controlId' => $field,
             'dataType' => self::getFieldDataType($field),
             'spliceType' => static::$spliceType,
             'filterType' => $filterType,
-            'value' => $value
         ];
+
+        if ($isArray) {
+            $example['values'] = $value;
+        } else {
+            $example['value'] = $value;
+        }
+        return $example;
     }
 
     /**

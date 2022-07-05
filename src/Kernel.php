@@ -191,12 +191,17 @@ class Kernel
         if (is_array($map)) {
             MingDaoYun::$filters[] = Filter::filterTypeCreate($map);
         } else {
-            if ($condition !== null && $condition !== false) {
-                if ($condition === '' || $value === '') {
-                    throw new InvalidArgumentException('请求缺少参数~');
+
+            if (is_array($condition)) {
+                MingDaoYun::$filters[] = Filter::createArrayCondition($map, '=', $condition);
+            } else {
+                if ($condition !== null && $condition !== false) {
+                    if ($condition === '' || $value === '') {
+                        throw new InvalidArgumentException('请求缺少参数~');
+                    }
                 }
+                MingDaoYun::$filters[] = Filter::filterTypeCreate($map, $condition, $value);
             }
-            MingDaoYun::$filters[] = Filter::filterTypeCreate($map, $condition, $value);
         }
     }
 

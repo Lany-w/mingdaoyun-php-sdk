@@ -16,7 +16,7 @@ use Lany\MingDaoYun\Facade\Kernel;
  */
 class MingDaoYun
 {
-    const VERSION = "1.2.2";
+    const VERSION = "1.3.0";
     //明道云APPKEY
     public static string $appKey;
     //明道云 sign
@@ -287,6 +287,21 @@ class MingDaoYun
     {
         Filter::$spliceType = 1;
         Kernel::buildFilters($field, 17, $date);
+        return $this;
+    }
+
+    /**
+     * Notes:
+     * User: Lany
+     * DateTime: 2022/7/5 2:06 PM
+     * @param string $field
+     * @param array $condition
+     * @return $this
+     */
+    public function whereIn(string $field, array $condition): MingDaoYun
+    {
+        Filter::$spliceType = 1;
+        Kernel::buildFilters($field, $condition);
         return $this;
     }
 
