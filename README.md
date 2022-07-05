@@ -97,6 +97,7 @@ $data = $mdy->table('worksheetId')->get();
 - [sort](#sort)
 - [whereOr](#whereOr)
 - [where](#where)
+- [whereIn](#whereIn)
 - [whereNull](#whereNull)
 - [whereNotNull](#whereNotNull)
 - [whereDate](#whereDate)
@@ -193,6 +194,14 @@ $mdy->table('worksheetId')->whereOr('field', '=', '123');
 
 ```php
 $mdy->table('worksheetId')->where('field', '!=', '123');
+```
+
+### whereIn
+
+> wehreIn
+
+```php
+$mdy->table('worksheetId')->whereIn('field', ['Lany', 'Todd']);
 ```
 
 ### whereNull
