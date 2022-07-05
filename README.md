@@ -201,7 +201,7 @@ $mdy->table('worksheetId')->where('field', '!=', '123');
 > wehreIn
 
 ```php
-$mdy->table('worksheetId')->whereIn('field', ['Lany', 'Todd']);
+$mdy->table('worksheetId')->whereIn('field', ['Lany', 'Todd', 'Dom']);
 ```
 
 ### whereNull
