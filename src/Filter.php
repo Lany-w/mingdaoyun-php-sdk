@@ -93,8 +93,14 @@ class Filter
                 case 18:
                     $filterType = 18;
                     break;
+                case 'RCEq':
+                    $filterType = 24;
+                    break;
+                case 'RCNe':
+                    $filterType = 25;
+                    break;
                 default:
-                    $filterType = 0;
+                    $filterType = $symbol;
                     break;
             }
         }
