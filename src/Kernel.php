@@ -311,6 +311,7 @@ class Kernel
         if ($total > $count) {
             $data['data']['rows'] = $this->fetch($total, $data['data']['rows'], $count, $uri);
         }
+        static::$isClearParams = true;
         return $data;
     }
 
