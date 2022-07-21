@@ -120,6 +120,87 @@ class Filter
         return $example;
     }
 
+    public static function buildDateRange($field, $flag,$range): array
+    {
+        $example = [
+            'controlId' => $field,
+            'dataType' => self::getFieldDataType($field),
+            'spliceType' => 1,
+            'filterType' => $flag ? 17 : 18,
+        ];
+
+        switch ($range) {
+            case 'Today':
+                $enum = 1;
+                break;
+            case 'Yesterday':
+                $enum = 2;
+                break;
+            case 'Tomorrow':
+                $enum = 3;
+                break;
+            case 'ThisWeek':
+                $enum = 4;
+                break;
+            case 'LastWeek':
+                $enum = 5;
+                break;
+            case 'NextWeek':
+                $enum = 6;
+                break;
+            case 'ThisMonth':
+                $enum = 7;
+                break;
+            case 'LastMonth':
+                $enum = 8;
+                break;
+            case 'NextMonth':
+                $enum = 9;
+                break;
+            case 'ThisQuarter':
+                $enum = 12;
+                break;
+            case 'LastQuarter':
+                $enum = 13;
+                break;
+            case 'NextQuarter':
+                $enum = 14;
+                break;
+            case 'ThisYear':
+                $enum = 15;
+                break;
+            case 'LastYear':
+                $enum = 16;
+                break;
+            case 'NextYear':
+                $enum = 17;
+                break;
+            case 'Last7Day':
+                $enum = 21;
+                break;
+            case 'Last14Day':
+                $enum = 22;
+                break;
+            case 'Last30Day':
+                $enum = 23;
+                break;
+            case 'Next7Day':
+                $enum = 31;
+                break;
+            case 'Next14Day':
+                $enum = 32;
+                break;
+            case 'Next33Day':
+                $enum = 33;
+                break;
+            default:
+                $enum = 0;
+
+        }
+        $example['dateRange'] = $enum;
+        return $example;
+    }
+
     /**
      * Notes:获取字段dataType
      * User: Lany

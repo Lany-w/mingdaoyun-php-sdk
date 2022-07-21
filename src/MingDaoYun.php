@@ -16,7 +16,7 @@ use Lany\MingDaoYun\Facade\Kernel;
  */
 class MingDaoYun
 {
-    const VERSION = "1.3.3";
+    const VERSION = "1.4.0";
     //明道云APPKEY
     public static string $appKey;
     //明道云 sign
@@ -319,6 +319,24 @@ class MingDaoYun
         Kernel::buildFilters($field, 18, $date);
         return $this;
     }
+
+    public function dateRange(string $field, string $range): MingDaoYun
+    {
+        self::$filters[] = Filter::buildDateRange($field, 1,$range);
+        return $this;
+    }
+    public function notDateRange(string $field, string $range): MingDaoYun
+    {
+        self::$filters[] = Filter::buildDateRange($field, 0,$range);
+        return $this;
+    }
+
+    public function customize(array $filter): MingDaoYun
+    {
+        self::$filters[] = $filter;
+        return $this;
+    }
+
 
     /**
      * Notes:新增记录

@@ -12,7 +12,7 @@ mingdaoyun-PHP-SDK
 ## Installing
 
 ```shell
-$ composer require lany/mingdaoyun:"1.2.*"
+$ composer require lany/mingdaoyun"
 ```
 
 ## Usage  
@@ -113,6 +113,9 @@ $data = $mdy->table('worksheetId')->get();
 - [updateRows](#updateRows)
 - [all](#all)
 - [count](#count) 
+- [dateRange](#dateRange)
+- [notDateRange](#notDateRange)
+- [customize](#customize)
 - [同步数据到本地数据库](#同步数据到本地数据库)
 
 ### init
@@ -340,6 +343,41 @@ $mdy->table('worksheetId')->all();
 ```php
 $mdy->table('worksheetId')->count();
 ```  
+
+### dateRange<small>此方法为`1.4.0新增`</small>
+
+> 日期区间  
+>支持`Today`,`Tomorrow`, `Yesterday`,`ThisWeek`,`Next7Day`, `Last14Day`等，具体可查看明道云文档 DateRange
+
+```php
+$mdy->table('worksheetId')->dateRange('plan_date', 'Next14Day')->get();
+``` 
+
+### notDateRange<small>此方法为`1.4.0新增`</small>
+
+> 不在日期区间 
+>支持`Today`,`Tomorrow`, `Yesterday`,`ThisWeek`,`Next7Day`, `Last14Day`等，具体可查看明道云文档 DateRange
+
+```php
+$mdy->table('worksheetId')->notDateRange('plan_date', 'Next14Day')->get();
+``` 
+
+### customize<small>此方法为`1.4.0新增`</small>
+
+> 自定义查询条件，按官方文档的格式传入数组参数
+
+```php
+$customize = [
+  0 => [
+    "controlId" => "62d903e1347b8802573306d3",
+    "dataType" => 30,
+    "spliceType" => 1,
+    "filterType" => 2,
+    "value" => "Jinji"
+  ]
+]
+$mdy->table('worksheetId')->customize($customize)->get();
+``` 
 
 ### 同步数据到本地数据库
 
