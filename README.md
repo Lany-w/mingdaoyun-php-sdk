@@ -190,7 +190,7 @@ $mdy->table('worksheetId')->whereOr('field', '=', '123');
 
 ### where
 
-> 设置筛选条件,以and的方式拼接下一个条件,目前支持的运算符有`contains`,`notContain`,`startWith`,`endWith`,`=`,`!=`,`>`,`>=`,`<`,`<=`
+> 设置筛选条件,以and的方式拼接下一个条件,目前支持的运算符有`contains`,`notContain`,`startWith`,`endWith`,`=`,`!=`,`>`,`>=`,`<`,`<=`,`RCEq`,`RCNe`
 
 ```php
 $mdy->table('worksheetId')->where('field', '!=', '123');
@@ -201,7 +201,7 @@ $mdy->table('worksheetId')->where('field', '!=', '123');
 > wehreIn
 
 ```php
-$mdy->table('worksheetId')->whereIn('field', ['Lany', 'Todd']);
+$mdy->table('worksheetId')->whereIn('field', ['Lany', 'Todd', 'Dom']);
 ```
 
 ### whereNull
