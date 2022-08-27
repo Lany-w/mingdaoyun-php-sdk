@@ -7,7 +7,7 @@ mingdaoyun-PHP-SDK
 
 - [x] 封装基础API
 - [x] 固定数据的CRUD
-- [ ] to_sql功能
+- [x] syncToDB 功能
 
 ## Installing
 
