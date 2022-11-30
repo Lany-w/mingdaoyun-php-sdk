@@ -368,13 +368,11 @@ $mdy->table('worksheetId')->notDateRange('plan_date', 'Next14Day')->get();
 
 ```php
 $customize = [
-  0 => [
     "controlId" => "62d903e1347b8802573306d3",
     "dataType" => 30,
     "spliceType" => 1,
     "filterType" => 2,
     "value" => "Jinji"
-  ]
 ]
 $mdy->table('worksheetId')->customize($customize)->get();
 ``` 
