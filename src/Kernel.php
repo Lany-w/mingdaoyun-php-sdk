@@ -278,16 +278,17 @@ class Kernel
      * Notes:
      * User: Lany
      * DateTime: 2022/1/6 10:57 上午
+     * @param string $keyword
      * @return int|mixed
      * @throws GuzzleException
      * @throws HttpException
      * @throws InvalidArgumentException
      */
-    public function rowsCount()
+    public function rowsCount(string $keyword)
     {
-        MingDaoYun::$getParams['pageSize'] = 1;
-        $result =  $this->getList();
-        return $result['data']['total'] ?: 0;
+        MingDaoYun::$getParams['keywords'] = $keyword;
+        $result = $this->exec(MingDaoYun::$countRow);
+        return $result['data'];
     }
 
     /**

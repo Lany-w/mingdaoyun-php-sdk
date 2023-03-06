@@ -16,7 +16,7 @@ use Lany\MingDaoYun\Facade\Kernel;
  */
 class MingDaoYun
 {
-    const VERSION = "1.4.0";
+    const VERSION = "1.4.1";
     //明道云APPKEY
     public static string $appKey;
     //明道云 sign
@@ -49,6 +49,8 @@ class MingDaoYun
     public static string $editRowUri = '/api/v2/open/worksheet/editRow';
     //批量更新行记录
     public static string $editRowsUri = '/api/v2/open/worksheet/editRows';
+    //获取工作表总行数
+    public static string $countRow = '/api/v2/open/worksheet/getFilterRowsTotalNum';
 
     public function __construct()
     {
@@ -411,11 +413,12 @@ class MingDaoYun
      * Notes:count
      * User: Lany
      * DateTime: 2022/1/6 10:45 上午
+     * @param string $keyword
      * @return int
      */
-    public function count() :int
+    public function count(string $keyword = '') :int
     {
-        return Kernel::rowsCount();
+        return Kernel::rowsCount($keyword);
     }
 
     /**

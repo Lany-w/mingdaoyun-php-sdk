@@ -20,7 +20,7 @@ namespace Lany\MingDaoYun\Facade;
  * @method static del()
  * @method static editRow()
  * @method static editRows()
- * @method static rowsCount()
+ * @method static rowsCount($keyword)
  * @method static fetchAll($count,$uri)
  */
 class Kernel extends Facade

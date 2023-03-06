@@ -338,10 +338,11 @@ $mdy->table('worksheetId')->all();
 ### count
 
 > 统计数据行数  
-><small>此方法为`1.1.0新增`</small>
+><small>此方法为`1.1.0新增`</small>  
+>keyword默认为空
 
 ```php
-$mdy->table('worksheetId')->count();
+$mdy->table('worksheetId')->count($keyword);
 ```  
 
 ### dateRange<small>此方法为`1.4.0新增`</small>
