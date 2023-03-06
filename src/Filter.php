@@ -25,9 +25,9 @@ class Filter
         if (is_array($field)) {
             foreach ($field as $k => $v) {
                 if (is_array($v)) {
-                    return self::filterTypeEnum(...$v);
+                    MingDaoYun::$filters[] = self::filterTypeEnum(...$v);
                 } else {
-                    return self::filterTypeEnum($k, '=', $v);
+                    MingDaoYun::$filters[] = self::filterTypeEnum($k, '=', $v);
                 }
             }
         } else {

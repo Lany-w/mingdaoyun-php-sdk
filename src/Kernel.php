@@ -189,7 +189,7 @@ class Kernel
     public function buildFilters($map, $condition, $value = '')
     {
         if (is_array($map)) {
-            MingDaoYun::$filters[] = Filter::filterTypeCreate($map);
+             Filter::filterTypeCreate($map);
         } else {
 
             if (is_array($condition)) {
