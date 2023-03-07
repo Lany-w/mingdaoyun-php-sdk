@@ -116,7 +116,8 @@ $data = $mdy->table('worksheetId')->get();
 - [dateRange](#dateRange)
 - [notDateRange](#notDateRange)
 - [customize](#customize)
-- [同步数据到本地数据库](#同步数据到本地数据库)
+- [同步数据到本地数据库](#同步数据到本地数据库)  
+- [workflow](#workflow)
 
 ### init
 
@@ -376,7 +377,13 @@ $customize = [
     "value" => "Jinji"
 ]
 $mdy->table('worksheetId')->customize($customize)->get();
-``` 
+```   
+
+### workflow  
+> `1.4.2` 是否触发工作流  默认为true
+```php
+$mdy->table('worksheetId')->workflow(false);
+```
 
 ### 同步数据到本地数据库
 

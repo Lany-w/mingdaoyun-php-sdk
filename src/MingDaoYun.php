@@ -16,7 +16,7 @@ use Lany\MingDaoYun\Facade\Kernel;
  */
 class MingDaoYun
 {
-    const VERSION = "1.4.1";
+    const VERSION = "1.4.2";
     //明道云APPKEY
     public static string $appKey;
     //明道云 sign
@@ -430,6 +430,19 @@ class MingDaoYun
     public function all() :array
     {
         return Kernel::fetchAll(1000, MingDaoYun::$getListUri);
+    }
+
+    /**
+     * Notes:是否触发工作流
+     * User: Lany
+     * DateTime: 2023/3/7 上午11:03
+     * @param bool $bool
+     * @return $this
+     */
+    public function workflow(bool $bool = true): MingDaoYun
+    {
+        self::$getParams['triggerWorkflow'] = $bool;
+        return $this;
     }
 
 }
