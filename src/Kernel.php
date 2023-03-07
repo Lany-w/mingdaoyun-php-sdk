@@ -120,7 +120,7 @@ class Kernel
     {
         $this->checkAppInit();
         $params = $this->buildRequestParams();
-
+        print_r($params);
         //兼容处理
         if (strpos(MingDaoYun::$host, 'api.mingdao.com') !== false) {
             $uri = str_replace('/api', '', $uri);
@@ -311,6 +311,9 @@ class Kernel
         $total = $data['data']['total'];
         if ($total > $count) {
             $data['data']['rows'] = $this->fetch($total, $data['data']['rows'], $count, $uri);
+        } else {
+            MingDaoYun::$filters = [];
+            MingDaoYun::$getParams = [];
         }
         static::$isClearParams = true;
         return $data;
