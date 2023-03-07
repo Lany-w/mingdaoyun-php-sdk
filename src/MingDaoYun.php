@@ -445,4 +445,17 @@ class MingDaoYun
         return $this;
     }
 
+    /**
+     * Notes:是否不统计总行数以提高性能
+     * User: Lany
+     * DateTime: 2023/3/7 下午4:55
+     * @param bool $bool
+     * @return $this
+     */
+    public function notGetTotal(bool $bool = false): MingDaoYun
+    {
+        self::$getParams['notGetTotal'] = $bool;
+        return $this;
+    }
+
 }

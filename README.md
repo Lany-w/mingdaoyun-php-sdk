@@ -118,6 +118,7 @@ $data = $mdy->table('worksheetId')->get();
 - [customize](#customize)
 - [同步数据到本地数据库](#同步数据到本地数据库)  
 - [workflow](#workflow)
+- [notGetTotal](#notGetTotal)
 
 ### init
 
@@ -383,6 +384,12 @@ $mdy->table('worksheetId')->customize($customize)->get();
 > `1.4.2` 是否触发工作流  默认为true
 ```php
 $mdy->table('worksheetId')->workflow(false);
+```
+
+### notGetTotal  
+> `1.4.2` 是否不统计总行数以提高性能  默认为false
+```php
+$mdy->table('worksheetId')->notGetTotal(true);
 ```
 
 ### 同步数据到本地数据库
