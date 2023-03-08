@@ -80,9 +80,9 @@ class MingDaoOrgStructureTest extends TestCase
         $org = MingDaoOrg::init(self::$config['appKey'], self::$config['secretKey'], self::$config['host'], self::$config['projectId']);
         $data = $org->upsertUsers([
             [
-                'corpUserId' => 'todd.lee@rinsys.com',
+                'corpUserId' => 'todd@rinsys.com',
                 'name' => 'Todd Test',
-                'email' => 'todd.lee@rinsys.com',
+                'email' => 'todd@rinsys.com',
                 'mobilePhone' => '',
                 'contactPhone' => '',
 

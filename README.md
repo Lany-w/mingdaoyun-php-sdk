@@ -8,6 +8,7 @@ mingdaoyun-PHP-SDK
 - [x] 封装基础API
 - [x] 固定数据的CRUD
 - [x] syncToDB 功能
+- [ ] 明道云组织架构接口
 
 ## Installing
 
