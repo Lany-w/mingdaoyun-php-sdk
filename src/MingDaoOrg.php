@@ -36,6 +36,12 @@ class MingDaoOrg
     //替换汇报关系成员 url
     public static string $replaceStructure = '/v2/open/structure/replaceStructure';
 
+    // 同步用户
+    public static string $upsertUser = '/generalintegrateapi/v2/user/upsertUser';
+    // 批量同步用户
+    public static string $upsertUsers = '/generalintegrateapi/v2/user/upsertUsers';
+    // 删除用户
+    public static string $removeUser = '/generalintegrateapi/v2/user/removeUser';
 
     public function __construct()
     {
@@ -195,4 +201,82 @@ class MingDaoOrg
         return $this->exec(self::$replaceStructure);
     }
 
+
+    /**
+     * 单个同步用户
+     * "user":
+     * {
+     * "corpUserId": "string",
+     * "name": "string",
+     * "departmentIds": [
+     * "string"
+     * ],
+     * "positions": [
+     * "string"
+     * ],
+     * "email": "string",
+     * "mobilePhone": "string",
+     * "contactPhone": "string",
+     * "jobNumber": "string",
+     * "emptyCover": true
+     * },
+     * @param array $user
+     * @return array
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     * @throws GuzzleException
+     */
+    public function upsertUser(array $user): array
+    {
+        $this->params['user'] = $user;
+        $this->method = "POST";
+        return $this->exec(self::$upsertUser);
+    }
+
+    /**
+     * 批量同步用户
+     * "users":[
+     * {
+     * "corpUserId": "string",
+     * "name": "string",
+     * "departmentIds": [
+     * "string"
+     * ],
+     * "positions": [
+     * "string"
+     * ],
+     * "email": "string",
+     * "mobilePhone": "string",
+     * "contactPhone": "string",
+     * "jobNumber": "string",
+     * "emptyCover": true
+     * }],
+     * @param array $users
+     * @return array
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     * @throws GuzzleException
+     */
+    public function upsertUsers(array $users): array
+    {
+        $this->params['users'] = $users;
+        $this->method = "POST";
+        return $this->exec(self::$upsertUsers);
+    }
+
+
+    /**
+     * 删除用户，对应离职功能
+     * @param string $corpUserId
+     * @return array
+     * @throws GuzzleException
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     */
+    public function removeUser(string $corpUserId): array
+    {
+        $this->params['corpUserId'] = $corpUserId;
+        $this->method = "POST";
+        return $this->exec(self::$removeUser);
+    }
 }
