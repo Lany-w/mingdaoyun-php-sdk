@@ -16,7 +16,7 @@ use Lany\MingDaoYun\Facade\Kernel;
  */
 class MingDaoYun
 {
-    const VERSION = "1.4.2";
+    const VERSION = "1.4.5";
     //明道云APPKEY
     public static string $appKey;
     //明道云 sign
