@@ -279,4 +279,15 @@ class MingDaoOrg
         $this->method = "POST";
         return $this->exec(self::$removeUser);
     }
+
+    /**
+     * 直接设置参数
+     * @param $params
+     * @return $this
+     */
+    public function setParams($params): MingDaoOrg
+    {
+        $this->params = array_merge($this->params, $params);
+        return $this;
+    }
 }
