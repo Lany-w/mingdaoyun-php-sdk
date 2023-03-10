@@ -290,4 +290,15 @@ class MingDaoOrg
         $this->params = array_merge($this->params, $params);
         return $this;
     }
+
+    /**
+     * 设置Method
+     * @param $method
+     * @return $this
+     */
+    public function setMethod($method): MingDaoOrg
+    {
+        $this->method = $method;
+        return $this;
+    }
 }
