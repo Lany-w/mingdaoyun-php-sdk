@@ -305,16 +305,16 @@ class Kernel
     {
         MingDaoYun::$getParams['pageSize'] = $count;
         ini_set('memory_limit','1024M');
-
+        static::$isClearParams = false;
         $data = $this->exec($uri);
         $total = $data['data']['total'];
         if ($total > $count) {
-            static::$isClearParams = false;
             $data['data']['rows'] = $this->fetch($total, $data['data']['rows'], $count, $uri);
         } else {
             MingDaoYun::$filters = [];
             MingDaoYun::$getParams = [];
         }
+        static::$isClearParams = true;
         return $data;
     }
 
