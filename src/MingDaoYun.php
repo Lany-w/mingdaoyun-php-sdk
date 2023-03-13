@@ -16,7 +16,7 @@ use Lany\MingDaoYun\Facade\Kernel;
  */
 class MingDaoYun
 {
-    const VERSION = "1.4.5";
+    const VERSION = "1.4.10";
     //明道云APPKEY
     public static string $appKey;
     //明道云 sign
@@ -455,6 +455,19 @@ class MingDaoYun
     public function notGetTotal(bool $bool = false): MingDaoYun
     {
         self::$getParams['notGetTotal'] = $bool;
+        return $this;
+    }
+
+    /**
+     * Notes:是否只返回controlId，默认false
+     * User: Lany
+     * DateTime: 2023/3/13 下午2:24
+     * @param bool $bool
+     * @return $this
+     */
+    public function useControlId(bool $bool = false): MingDaoYun
+    {
+        self::$getParams['useControlId'] = $bool;
         return $this;
     }
 
