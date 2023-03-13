@@ -343,4 +343,25 @@ class Kernel
         }
         return $rows;
     }
+
+    public function getRoles()
+    {
+        $uri = MingDaoYun::$getRoles;
+        //兼容处理
+        if (strpos(MingDaoYun::$host, 'api.mingdao.com') !== false) {
+            $uri = str_replace('/api', '', $uri);
+        }
+        $response = Http::client()->get(MingDaoYun::$host.$uri, [
+            'query' => ['appKey' => MingDaoYun::$appKey, 'sign' => MingDaoYun::$sign]
+        ]);
+        if ($response->getStatusCode() != 200) {
+            throw new HttpException($response->getBody(), $response->getStatusCode());
+        }
+        return json_decode($response->getBody()->getContents(), true);
+    }
+
+    public function createRole()
+    {
+        return $this->exec(MingDaoYun::$createRole);
+    }
 }

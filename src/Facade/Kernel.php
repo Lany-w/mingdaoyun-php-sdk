@@ -22,6 +22,8 @@ namespace Lany\MingDaoYun\Facade;
  * @method static editRows()
  * @method static rowsCount($keyword)
  * @method static fetchAll($count,$uri)
+ * @method static getRoles()
+ * @method static createRole()
  */
 class Kernel extends Facade
 {

@@ -51,6 +51,10 @@ class MingDaoYun
     public static string $editRowsUri = '/api/v2/open/worksheet/editRows';
     //获取工作表总行数
     public static string $countRow = '/api/v2/open/worksheet/getFilterRowsTotalNum';
+    //获取应用角色列表
+    public static string $getRoles = '/api/v1/open/app/getRoles';
+    //创建应用角色
+    public static string $createRole = '/api/v1/open/app/createRole';
 
     public function __construct()
     {
@@ -469,6 +473,33 @@ class MingDaoYun
     {
         self::$getParams['useControlId'] = $bool;
         return $this;
+    }
+
+    /**
+     * Notes:获取应用角色列表
+     * User: Lany
+     * DateTime: 2023/3/13 下午3:38
+     * @return array
+     */
+    public function roles():array
+    {
+        return Kernel::getRoles();
+    }
+
+    /**
+     * Notes:创建应用角色
+     * User: Lany
+     * DateTime: 2023/3/13 下午3:44
+     * @param $name
+     * @param $desc
+     * @return mixed
+     */
+    public function createRole($name, $desc)
+    {
+        $this->table('test');
+        self::$getParams['name'] = $name;
+        self::$getParams['desc'] = $desc;
+        return Kernel::createRole();
     }
 
 }
