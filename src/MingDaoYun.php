@@ -481,8 +481,9 @@ class MingDaoYun
      * DateTime: 2023/3/13 下午3:38
      * @return array
      */
-    public function roles():array
+    public function roles(): array
     {
+        $this->table('test');
         return Kernel::getRoles();
     }
 
@@ -494,7 +495,7 @@ class MingDaoYun
      * @param $desc
      * @return mixed
      */
-    public function createRole($name, $desc)
+    public function createRole($name, $desc): array
     {
         $this->table('test');
         self::$getParams['name'] = $name;
