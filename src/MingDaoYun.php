@@ -55,6 +55,8 @@ class MingDaoYun
     public static string $getRoles = '/api/v1/open/app/getRoles';
     //创建应用角色
     public static string $createRole = '/api/v1/open/app/createRole';
+    //删除应用角色
+    public static string $deleteRole = '/api/v1/open/app/deleteRole';
 
     public function __construct()
     {
@@ -501,6 +503,14 @@ class MingDaoYun
         self::$getParams['name'] = $name;
         self::$getParams['desc'] = $desc;
         return Kernel::createRole();
+    }
+
+    public function deleteRole($roleId, $operatorId): array
+    {
+        $this->table('test');
+        self::$getParams['roleId'] = $roleId;
+        self::$getParams['operatorId'] = $operatorId;
+        return Kernel::deleteRole();
     }
 
 }

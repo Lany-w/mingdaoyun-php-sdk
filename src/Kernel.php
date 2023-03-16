@@ -103,7 +103,7 @@ class Kernel
     public function setWorkSheetMap()
     {
         $data = $this->exec(MingDaoYun::$getWorkSheetMapUri);
-        MingDaoYun::$worksheetMap[MingDaoYun::$worksheetId] = $data['data'];
+        MingDaoYun::$worksheetMap[MingDaoYun::$worksheetId] = $data['data']??'';
     }
 
     /**
@@ -363,5 +363,10 @@ class Kernel
     public function createRole()
     {
         return $this->exec(MingDaoYun::$createRole);
+    }
+
+    public function deleteRole()
+    {
+        return $this->exec(MingDaoYun::$deleteRole);
     }
 }
