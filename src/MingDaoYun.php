@@ -57,6 +57,8 @@ class MingDaoYun
     public static string $createRole = '/api/v1/open/app/createRole';
     //删除应用角色
     public static string $deleteRole = '/api/v1/open/app/deleteRole';
+    //添加应用角色成员
+    public static string $addRoleMember = '/api/v1/open/app/addRoleMember';
 
     public function __construct()
     {
@@ -505,12 +507,42 @@ class MingDaoYun
         return Kernel::createRole();
     }
 
+    /**
+     * Notes:删除应用角色
+     * User: Lany
+     * DateTime: 2023/3/16 下午4:11
+     * @param $roleId
+     * @param $operatorId
+     * @return array
+     */
     public function deleteRole($roleId, $operatorId): array
     {
         $this->table('test');
         self::$getParams['roleId'] = $roleId;
         self::$getParams['operatorId'] = $operatorId;
         return Kernel::deleteRole();
+    }
+
+    /**
+     * Notes:添加应用角色成员
+     * User: Lany
+     * DateTime: 2023/3/16 下午4:13
+     * @param $roleId
+     * @param $operatorId
+     * @param array $userIds
+     * @param array $departmentIds
+     * @param array $jobIds
+     * @return array
+     */
+    public function addRoleMember($roleId, $operatorId, $userIds=[], $departmentIds=[], $jobIds=[]): array
+    {
+        $this->table('test');
+        self::$getParams['roleId'] = $roleId;
+        self::$getParams['operatorId'] = $operatorId;
+        self::$getParams['userIds'] = $userIds;
+        self::$getParams['departmentIds'] = $departmentIds;
+        self::$getParams['jobIds'] = $jobIds;
+        return Kernel::addRoleMember();
     }
 
 }
