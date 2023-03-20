@@ -59,6 +59,10 @@ class MingDaoYun
     public static string $deleteRole = '/api/v1/open/app/deleteRole';
     //添加应用角色成员
     public static string $addRoleMember = '/api/v1/open/app/addRoleMember';
+    //移除应用角色成员
+    public static string $removeRoleMember = '/api/v1/open/app/removeRoleMember';
+    //退出应用
+    public static string $logout = '/api/v1/open/app/quit';
 
     public function __construct()
     {
@@ -543,6 +547,42 @@ class MingDaoYun
         self::$getParams['departmentIds'] = $departmentIds;
         self::$getParams['jobIds'] = $jobIds;
         return Kernel::addRoleMember();
+    }
+
+    /**
+     * Notes:移除应用角色成员
+     * User: Lany
+     * DateTime: 2023/3/20 下午2:48
+     * @param $roleId
+     * @param $operatorId
+     * @param array $userIds
+     * @param array $departmentIds
+     * @param $jobIds
+     * @return array
+     */
+    public function removeRoleMember($roleId, $operatorId, $userIds=[], $departmentIds=[], $jobIds): array
+    {
+        $this->table('test');
+        self::$getParams['roleId'] = $roleId;
+        self::$getParams['operatorId'] = $operatorId;
+        self::$getParams['userIds'] = $userIds;
+        self::$getParams['departmentIds'] = $departmentIds;
+        self::$getParams['jobIds'] = $jobIds;
+        return Kernel::removeRoleMember();
+    }
+
+    /**
+     * Notes:退出应用
+     * User: Lany
+     * DateTime: 2023/3/20 下午2:48
+     * @param $operatorId
+     * @return mixed
+     */
+    public function logout($operatorId)
+    {
+        $this->table('test');
+        self::$getParams['operatorId'] = $operatorId;
+        return Kernel::logout();
     }
 
 }

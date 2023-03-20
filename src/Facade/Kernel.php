@@ -26,6 +26,8 @@ namespace Lany\MingDaoYun\Facade;
  * @method static createRole()
  * @method static deleteRole()
  * @method static addRoleMember()
+ * @method static removeRoleMember()
+ * @method static logout()
  */
 class Kernel extends Facade
 {

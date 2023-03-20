@@ -374,4 +374,13 @@ class Kernel
     {
         return $this->exec(MingDaoYun::$addRoleMember);
     }
+
+    public function removeRoleMember()
+    {
+        return $this->exec(MingDaoYun::$removeRoleMember);
+    }
+    public function logout()
+    {
+        return $this->exec(MingDaoYun::$logout);
+    }
 }
