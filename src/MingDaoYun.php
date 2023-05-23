@@ -148,7 +148,7 @@ class MingDaoYun
      * DateTime: 2021/12/31 2:01 下午
      * @return array
      */
-    public function fieldMap() :array
+    public function fieldMap(): array
     {
         return self::$worksheetMap[self::$worksheetId];
     }
@@ -336,12 +336,13 @@ class MingDaoYun
 
     public function dateRange(string $field, string $range): MingDaoYun
     {
-        self::$filters[] = Filter::buildDateRange($field, 1,$range);
+        self::$filters[] = Filter::buildDateRange($field, 1, $range);
         return $this;
     }
+
     public function notDateRange(string $field, string $range): MingDaoYun
     {
-        self::$filters[] = Filter::buildDateRange($field, 0,$range);
+        self::$filters[] = Filter::buildDateRange($field, 0, $range);
         return $this;
     }
 
@@ -359,7 +360,7 @@ class MingDaoYun
      * @param array $data
      * @return array
      */
-    public function insert(array $data) :array
+    public function insert(array $data): array
     {
         self::$getParams['controls'] = $data;
         return Kernel::addRow();
@@ -372,7 +373,7 @@ class MingDaoYun
      * @param array $data
      * @return array
      */
-    public function create(array $data) :array
+    public function create(array $data): array
     {
         self::$getParams['rows'] = $data;
         return Kernel::addRows();
@@ -385,7 +386,7 @@ class MingDaoYun
      * @param string $rowId
      * @return array
      */
-    public function delete(string $rowId) :array
+    public function delete(string $rowId): array
     {
         self::$getParams['rowId'] = $rowId;
         return Kernel::del();
@@ -399,7 +400,7 @@ class MingDaoYun
      * @param array $data
      * @return array
      */
-    public function update(string $rowId, array $data) :array
+    public function update(string $rowId, array $data): array
     {
         self::$getParams['rowId'] = $rowId;
         self::$getParams['controls'] = $data;
@@ -414,7 +415,7 @@ class MingDaoYun
      * @param array $data
      * @return array
      */
-    public function updateRows(array $rowIds, array $data) :array
+    public function updateRows(array $rowIds, array $data): array
     {
         self::$getParams['rowIds'] = $rowIds;
         self::$getParams['control'] = $data;
@@ -428,7 +429,7 @@ class MingDaoYun
      * @param string $keyword
      * @return int
      */
-    public function count(string $keyword = '') :int
+    public function count(string $keyword = ''): int
     {
         return Kernel::rowsCount($keyword);
     }
@@ -439,7 +440,7 @@ class MingDaoYun
      * DateTime: 2022/1/6 12:35 下午
      * @return array
      */
-    public function all() :array
+    public function all(): array
     {
         return Kernel::fetchAll(1000, MingDaoYun::$getListUri);
     }
@@ -538,7 +539,7 @@ class MingDaoYun
      * @param array $jobIds
      * @return array
      */
-    public function addRoleMember($roleId, $operatorId, $userIds=[], $departmentIds=[], $jobIds=[]): array
+    public function addRoleMember($roleId, $operatorId, array $userIds = [], array $departmentIds = [], array $jobIds = []): array
     {
         $this->table('test');
         self::$getParams['roleId'] = $roleId;
@@ -560,7 +561,7 @@ class MingDaoYun
      * @param $jobIds
      * @return array
      */
-    public function removeRoleMember($roleId, $operatorId, $userIds=[], $departmentIds=[], $jobIds): array
+    public function removeRoleMember($roleId, $operatorId, array $userIds = [], array $departmentIds = [], array $jobIds = []): array
     {
         $this->table('test');
         self::$getParams['roleId'] = $roleId;
