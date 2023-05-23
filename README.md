@@ -3,6 +3,8 @@ mingdaoyun-PHP-SDK
 
 针对mingdaoyun的API封装的PHP-SDK包
 
+Python 版本：[https://github.com/ghostlitao/mingdaoyun-python-sdk](https://github.com/ghostlitao/mingdaoyun-python-sdk)
+
 ## Features
 
 - [x] 封装基础API

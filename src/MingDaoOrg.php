@@ -43,6 +43,9 @@ class MingDaoOrg
     // 删除用户
     public static string $removeUser = '/generalintegrateapi/v2/user/removeUser';
 
+    //
+    public static string $upsertDepartment = '/generalintegrateapi/v2/department/upsertDepartment';
+
     public function __construct()
     {
     }
@@ -300,5 +303,25 @@ class MingDaoOrg
     {
         $this->method = $method;
         return $this;
+    }
+
+    /**
+     * 单个同步部门
+     * "department": {
+     * "corpDepartmentId": "string",
+     * "name": "string",
+     * "parentId": "string"
+     * },
+     *
+     * @return array
+     * @throws GuzzleException
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     */
+    public function upsertDepartment(array $department)
+    {
+        $this->params['department'] = $department;
+        $this->method = "POST";
+        return $this->exec(self::$upsertDepartment);
     }
 }
