@@ -122,7 +122,8 @@ $data = $mdy->table('worksheetId')->get();
 - [同步数据到本地数据库](#同步数据到本地数据库)  
 - [workflow](#workflow)
 - [notGetTotal](#notGetTotal)
-
+- [whereBetween](#whereBetween)
+- [whereNotBetween](#whereNotBetween)
 ### init
 
 > 设置初始化参数
@@ -393,6 +394,16 @@ $mdy->table('worksheetId')->workflow(false);
 > `1.4.2` 是否不统计总行数以提高性能  默认为false
 ```php
 $mdy->table('worksheetId')->notGetTotal(true);
+```  
+
+### whereBetween  
+```php
+$mdy->table('worksheetId')->whereBetween('fq_time', ['2023-11-01 7:00:00', '2023-12-21 7:00:00']);
+```  
+
+### whereNotBetween
+```php
+$mdy->table('worksheetId')->whereNotBetween('fq_time', ['2023-11-01 7:00:00', '2023-12-21 7:00:00']);
 ```
 
 ### 同步数据到本地数据库

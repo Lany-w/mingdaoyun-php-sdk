@@ -75,6 +75,12 @@ class Filter
                 case '!=':
                     $filterType = 6;
                     break;
+                case 'Between':
+                    $filterType = 11;
+                    break;
+                case 'NBetween':
+                    $filterType = 12;
+                    break;
                 case '>':
                     $filterType = 13;
                     break;
@@ -114,6 +120,9 @@ class Filter
 
         if ($isArray) {
             $example['values'] = $value;
+        } elseif (in_array($filterType, [11, 12])) {
+            $example['minValue'] = $value[0];
+            $example['maxValue'] = $value[1];
         } else {
             $example['value'] = $value;
         }

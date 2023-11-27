@@ -16,7 +16,7 @@ use Lany\MingDaoYun\Facade\Kernel;
  */
 class MingDaoYun
 {
-    const VERSION = "1.4.10";
+    const VERSION = "1.4.12";
     //明道云APPKEY
     public static string $appKey;
     //明道云 sign
@@ -279,14 +279,34 @@ class MingDaoYun
         return $this;
     }
 
-    public function whereBetween()
+    /**
+     * Notes:在范围内
+     * User: Lany
+     * DateTime: 2023/11/27 13:20
+     * @param string $field
+     * @param array $condition
+     * @return $this
+     */
+    public function whereBetween(string $field, array $condition): MingDaoYun
     {
-        //todo
+        Filter::$spliceType = 1;
+        Kernel::buildFilters($field, 'Between', $condition);
+        return $this;
     }
 
-    public function whereNotBetween()
+    /**
+     * Notes:不在范围内
+     * User: Lany
+     * DateTime: 2023/11/27 13:20
+     * @param string $field
+     * @param array $condition
+     * @return $this
+     */
+    public function whereNotBetween(string $field, array $condition): MingDaoYun
     {
-        //todo
+        Filter::$spliceType = 1;
+        Kernel::buildFilters($field, 'NBetween', $condition);
+        return $this;
     }
 
     /**
