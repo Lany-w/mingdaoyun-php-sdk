@@ -124,6 +124,7 @@ $data = $mdy->table('worksheetId')->get();
 - [notGetTotal](#notGetTotal)
 - [whereBetween](#whereBetween)
 - [whereNotBetween](#whereNotBetween)
+- [whereGroup](#whereGroup)
 ### init
 
 > 设置初始化参数
@@ -350,9 +351,10 @@ $mdy->table('worksheetId')->all();
 ```php
 $mdy->table('worksheetId')->count($keyword);
 ```  
+ 
+### dateRange
 
-### dateRange<small>此方法为`1.4.0新增`</small>
-
+<small>此方法为`1.4.0新增`</small>
 > 日期区间  
 >支持`Today`,`Tomorrow`, `Yesterday`,`ThisWeek`,`Next7Day`, `Last14Day`等，具体可查看明道云文档 DateRange
 
@@ -360,8 +362,9 @@ $mdy->table('worksheetId')->count($keyword);
 $mdy->table('worksheetId')->dateRange('plan_date', 'Next14Day')->get();
 ``` 
 
-### notDateRange<small>此方法为`1.4.0新增`</small>
+### notDateRange
 
+<small>此方法为`1.4.0新增`</small>
 > 不在日期区间 
 >支持`Today`,`Tomorrow`, `Yesterday`,`ThisWeek`,`Next7Day`, `Last14Day`等，具体可查看明道云文档 DateRange
 
@@ -369,8 +372,9 @@ $mdy->table('worksheetId')->dateRange('plan_date', 'Next14Day')->get();
 $mdy->table('worksheetId')->notDateRange('plan_date', 'Next14Day')->get();
 ``` 
 
-### customize<small>此方法为`1.4.0新增`</small>
+### customize
 
+<small>此方法为`1.4.0新增`</small>
 > 自定义查询条件，按官方文档的格式传入数组参数
 
 ```php
@@ -390,13 +394,13 @@ $mdy->table('worksheetId')->customize($customize)->get();
 $mdy->table('worksheetId')->workflow(false);
 ```
 
-### notGetTotal  
+### notGetTotal
 > `1.4.2` 是否不统计总行数以提高性能  默认为false
 ```php
 $mdy->table('worksheetId')->notGetTotal(true);
 ```  
 
-### whereBetween  
+### whereBetween
 ```php
 $mdy->table('worksheetId')->whereBetween('fq_time', ['2023-11-01 7:00:00', '2023-12-21 7:00:00']);
 ```  
@@ -432,24 +436,15 @@ class ProductItem extends Model implements SyncAdapter
     \App\Models\ProductItem::syncToDB($data);
 ```  
 
-## 鸣谢
-[JetBrains](https://jb.gg/OpenSourceSupport) 提供优秀的IDE。  
+### whereGroup
 
-<a href="https://www.jetbrains.com" target="_blank">
-<img src="https://tva1.sinaimg.cn/large/008eGmZEly1gov9g3tzrnj30u00wj0tn.jpg" width="150"/>
-</a>  
-
-## Contributing
-
-You can contribute in one of three ways:
-
-1. File bug reports using the [issue tracker](https://github.com/lany/mingdaoyun/issues).
-2. Answer questions or fix bugs on the [issue tracker](https://github.com/lany/mingdaoyun/issues).
-3. Contribute new features or update the wiki.
-
-_The code contribution process is not very formal. You just need to make sure that you follow the PSR-0, PSR-1, and PSR-2 coding guidelines. Any new code contributions must be accompanied by unit
-tests where applicable._
-
+<small>1.5.0新增</small>
+>whereGroup($callable, $spliceType), spliceType为and/or,默认为and
+```php
+$mdy->table('60f631095d106d99c054e0bd')->whereGroup(function(\Lany\MingDaoYun\MingDaoYun $mdy) {
+    $mdy->whereOr('user', '=', 'Lany')->where('friend', '=', 'Dom');
+})->where('desc', '=', 'test')
+```
 ## License
 
 MIT

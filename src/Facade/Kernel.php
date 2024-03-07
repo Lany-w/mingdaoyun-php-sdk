@@ -28,6 +28,7 @@ namespace Lany\MingDaoYun\Facade;
  * @method static addRoleMember()
  * @method static removeRoleMember()
  * @method static logout()
+ * @method static groupFilters($callback, $spliceType)
  */
 class Kernel extends Facade
 {

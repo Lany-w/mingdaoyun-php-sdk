@@ -16,7 +16,7 @@ use Lany\MingDaoYun\Facade\Kernel;
  */
 class MingDaoYun
 {
-    const VERSION = "1.4.12";
+    const VERSION = "1.5.0";
     //明道云APPKEY
     public static string $appKey;
     //明道云 sign
@@ -604,6 +604,20 @@ class MingDaoYun
         $this->table('test');
         self::$getParams['operatorId'] = $operatorId;
         return Kernel::logout();
+    }
+
+    /**
+     * Notes: groupFilters
+     * User: Lany
+     * DateTime: 2024/3/7 10:23
+     * @param callable $callback
+     * @param string $spliceType
+     * @return $this
+     */
+    public function whereGroup(callable $callback, string $spliceType = 'AND'): MingDaoYun
+    {
+        Kernel::groupFilters($callback, $spliceType);
+        return $this;
     }
 
 }

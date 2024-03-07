@@ -13,6 +13,8 @@ use Lany\MingDaoYun\Exceptions\InvalidArgumentException;
 class Kernel
 {
     public static bool $isClearParams = true;
+    public static bool $isGroup = false;
+    public static array $group = [];
 
     /**
      * Notes:
@@ -192,14 +194,22 @@ class Kernel
         } else {
 
             if (is_array($condition)) {
-                MingDaoYun::$filters[] = Filter::createArrayCondition($map, '=', $condition);
+                $filter = Filter::createArrayCondition($map, '=', $condition);
+                if ($filter) {
+                    MingDaoYun::$filters[] = $filter;
+                }
+
             } else {
                 if ($condition !== null && $condition !== false) {
                     if ($condition === '' || $value === '') {
                         throw new InvalidArgumentException('请求缺少参数~');
                     }
                 }
-                MingDaoYun::$filters[] = Filter::filterTypeCreate($map, $condition, $value);
+                $filter = Filter::filterTypeCreate($map, $condition, $value);
+                if ($filter) {
+                    MingDaoYun::$filters[] = $filter;
+                }
+
             }
         }
     }
@@ -383,4 +393,19 @@ class Kernel
     {
         return $this->exec(MingDaoYun::$logout);
     }
+
+    public function groupFilters(callable $callback, $spliceType)
+    {
+        $spliceTypeArr = ['and' =>  1, 'or' => 2];
+
+        static::$isGroup = true;
+        $mdy = new MingDaoYun();
+
+        static::$group = ['isGroup' => true, 'spliceType' => $spliceTypeArr[strtolower($spliceType)]];
+        $callback($mdy);
+        static::$isGroup = false;
+        MingDaoYun::$filters[] = static::$group;
+        static::$group = [];
+    }
+
 }

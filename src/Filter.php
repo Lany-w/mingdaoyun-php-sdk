@@ -126,7 +126,11 @@ class Filter
         } else {
             $example['value'] = $value;
         }
-        return $example;
+
+        if (!Kernel::$isGroup) {
+            return $example;
+        }
+        Kernel::$group['groupFilters'][] = $example;
     }
 
     public static function buildDateRange($field, $flag,$range): array
