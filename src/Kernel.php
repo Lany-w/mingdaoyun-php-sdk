@@ -7,6 +7,8 @@
 namespace Lany\MingDaoYun;
 
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Pool;
+use GuzzleHttp\Psr7\Request;
 use Lany\MingDaoYun\Exceptions\HttpException;
 use Lany\MingDaoYun\Exceptions\InvalidArgumentException;
 
@@ -343,15 +345,39 @@ class Kernel
      */
     public function fetch($total, $rows, $count, $uri)
     {
-        //MingDaoYun::$getParams['pageSize'] = $count;
         $flag = ceil($total/$count);
-        for ($i = 2; $i <= $flag; $i ++) {
-            if ($i == $flag) static::$isClearParams = true;
-            MingDaoYun::$getParams['pageIndex'] = $i;
-            $result = $this->exec($uri);
-            $rows = array_merge($rows, $result['data']['rows']);
-        }
-        return $rows;
+        $requests = function () use ($uri, $flag) {
+
+            if (strpos(MingDaoYun::$host, 'api.mingdao.com') !== false) {
+                $uri = str_replace('/api', '', $uri);
+            }
+            $url = MingDaoYun::$host.$uri;
+            for ($i = 2; $i <= $flag; $i++) {
+                if ($i == $flag) static::$isClearParams = true;
+                MingDaoYun::$getParams['pageIndex'] = $i;
+                $params = $this->buildRequestParams();
+                yield new Request('POST', $url, ['Content-Type' => 'application/json'], json_encode($params));
+            }
+        };
+
+        $responses = [];
+        $client = Http::client();
+        $pool = new Pool($client, $requests(), [
+            'concurrency' => 50,
+            'fulfilled' => function ($response, $index) use (&$responses) {
+                $result = json_decode($response->getBody()->getContents(), true);
+                $responses[$index] = $result['data']['rows'];
+            },
+            'rejected' => function ($reason, $index) {
+                throw new HttpException($reason);
+            },
+        ]);
+
+        $promise = $pool->promise();
+        $promise->wait();
+        ksort($responses);
+
+        return array_merge($rows, call_user_func_array('array_merge', $responses));
     }
 
     public function getRoles()
